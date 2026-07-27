@@ -17,6 +17,7 @@
   --tag-bg: #f2ecc9;
   --tag-text: #6b5a1a;
   --social-bg: rgba(244, 243, 236, 0.5);
+  --danger: #b3261e;
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
   --shadow-card:
@@ -63,6 +64,7 @@
     --tag-bg: #3a3520;
     --tag-text: #dcd684;
     --social-bg: rgba(47, 48, 58, 0.5);
+    --danger: #ff6b6b;
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
     --shadow-card: rgba(0, 0, 0, 0.3) 0 1px 2px, rgba(0, 0, 0, 0.6) 0 10px 28px -10px;
@@ -129,4 +131,8 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+button {
+  font: inherit;
 }

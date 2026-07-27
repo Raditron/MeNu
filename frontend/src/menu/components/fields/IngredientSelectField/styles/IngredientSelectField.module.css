@@ -1,0 +1,11 @@
+.ingredientSelectRow {
+  display: flex;
+  gap: 8px;
+
+  select {
+    flex: 2 1 0;
+  }
+  input {
+    flex: 1 1 0;
+  }
+}

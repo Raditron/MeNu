@@ -1,0 +1,53 @@
+.quizOption {
+  container-type: size;
+  container-name: quiz-option;
+  position: relative;
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 4cqmin, 16px);
+  padding: clamp(14px, 6cqmin, 32px) 12px;
+  border-radius: var(--radius-card);
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-card);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: var(--border-subtle);
+  }
+  &.selected {
+    border-color: var(--accent);
+  }
+}
+
+.quizOptionIcon {
+  font-size: clamp(24px, 22cqmin, 72px);
+  line-height: 1;
+}
+
+.quizOptionLabel {
+  font-size: clamp(13px, 8cqmin, 26px);
+  color: var(--text-h);
+  text-align: center;
+}
+
+.quizOptionCheck {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: clamp(18px, 2.4vh, 22px);
+  height: clamp(18px, 2.4vh, 22px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-cta-text);
+  font-size: clamp(10px, 1.4vh, 12px);
+  font-weight: 700;
+}

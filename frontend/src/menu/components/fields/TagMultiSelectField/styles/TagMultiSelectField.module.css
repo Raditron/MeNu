@@ -1,0 +1,23 @@
+.tagMultiSelect {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tagOption {
+  font: inherit;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+
+  &.selected {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-cta-text);
+    font-weight: 500;
+  }
+}

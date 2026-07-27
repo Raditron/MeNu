@@ -1,0 +1,10 @@
+.appMain {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 32px;
+  text-align: left;
+
+  @media (max-width: 1024px) {
+    padding: 20px;
+  }
+}

@@ -1,0 +1,21 @@
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3px, 0.8vh, 6px);
+
+  label {
+    font-size: clamp(12px, 2vh, 14px);
+    font-weight: 500;
+    color: var(--text-h);
+  }
+
+  input,
+  select {
+    font: inherit;
+    padding: clamp(5px, 1.2vh, 8px) 10px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border-subtle);
+    background: var(--canvas);
+    color: var(--text-h);
+  }
+}

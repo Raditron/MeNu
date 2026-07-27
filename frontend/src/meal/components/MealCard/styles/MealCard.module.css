@@ -1,0 +1,49 @@
+.mealCard {
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+}
+
+.mealCardPicture {
+  width: 100%;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+  background: var(--tag-bg);
+}
+
+.mealCardBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mealCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text-h);
+  }
+}
+
+.mealCardPortions {
+  margin: 0;
+  font-size: 14px;
+}
+
+.mealCardCalories {
+  margin: 0;
+  font-weight: 500;
+  color: var(--text-h);
+}

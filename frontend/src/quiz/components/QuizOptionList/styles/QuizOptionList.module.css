@@ -1,0 +1,9 @@
+.quizOptionList {
+  display: grid;
+  grid-template-columns: repeat(var(--quiz-grid-size), 1fr);
+  grid-template-rows: repeat(var(--quiz-grid-size), 1fr);
+  gap: clamp(8px, 1.6vh, 12px);
+  margin-bottom: clamp(12px, 2.4vh, 24px);
+  flex: 1 1 auto;
+  min-height: 0;
+}
