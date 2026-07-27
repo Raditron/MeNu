@@ -48,3 +48,20 @@
     font-weight: 500;
   }
 }
+
+.signOut {
+  font: inherit;
+  padding: 8px 16px;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  margin-top: auto;
+  transition: background 0.2s;
+
+  &:hover {
+    background: var(--accent-bg);
+  }
+}

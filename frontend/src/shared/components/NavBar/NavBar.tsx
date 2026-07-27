@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import { signOut } from '../../../auth/api'
 import styles from './styles/NavBar.module.css'
 
 function navLinkClassName({ isActive }: { isActive: boolean }) {
@@ -17,6 +18,9 @@ export function NavBar() {
           Quiz
         </NavLink>
       </div>
+      <button type="button" className={styles.signOut} onClick={() => void signOut()}>
+        Sign out
+      </button>
     </nav>
   )
 }
