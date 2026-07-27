@@ -1,17 +1,20 @@
-import { useState } from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 import { MenuPage } from './menu/components/MenuPage'
 import { QuizPage } from './quiz/components/QuizPage'
-import type { AppPage } from './shared/components/NavBar'
 import { NavBar } from './shared/components/NavBar'
 
 function App() {
-  const [page, setPage] = useState<AppPage>('menu')
-
   return (
     <>
-      <NavBar activePage={page} onNavigate={setPage} />
-      <main className="app-main">{page === 'menu' ? <MenuPage /> : <QuizPage />}</main>
+      <NavBar />
+      <main className="app-main">
+        <Routes>
+          <Route path="/menu" element={<MenuPage />} />
+          <Route path="/quiz" element={<QuizPage />} />
+          <Route path="/" element={<Navigate to="/menu" replace />} />
+        </Routes>
+      </main>
     </>
   )
 }
