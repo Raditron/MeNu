@@ -21,7 +21,7 @@
 .nav-link {
   font: inherit;
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: var(--radius-btn);
   border: none;
   background: transparent;
   color: var(--text);
@@ -33,7 +33,7 @@
   }
   &.active {
     background: var(--accent);
-    color: #201400;
+    color: var(--accent-cta-text);
     font-weight: 500;
   }
 }
@@ -60,10 +60,10 @@
 .add-meal-button {
   font: inherit;
   padding: 10px 18px;
-  border-radius: 8px;
+  border-radius: var(--radius-btn);
   border: none;
   background: var(--accent);
-  color: #201400;
+  color: var(--accent-cta-text);
   font-weight: 500;
   cursor: pointer;
   transition: box-shadow 0.2s;
@@ -85,19 +85,22 @@
 /* Meal card */
 
 .meal-card {
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: var(--bg);
+  background: var(--surface);
 }
 
 .meal-card-picture {
   width: 100%;
   height: 140px;
-  object-fit: cover;
-  background: var(--code-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+  background: var(--tag-bg);
 }
 
 .meal-card-body {
@@ -154,7 +157,7 @@
   padding: 3px 10px;
   border-radius: 999px;
   background: var(--accent);
-  color: #201400;
+  color: var(--accent-cta-text);
   font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
@@ -166,6 +169,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -174,19 +178,20 @@
 }
 
 .modal {
-  background: var(--bg);
-  border-radius: 12px;
-  padding: 24px;
+  background: var(--surface);
+  box-shadow: var(--shadow-modal);
+  border-radius: 22px;
+  padding: clamp(14px, 4vh, 24px);
   width: 480px;
   max-width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: 96vh;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: clamp(8px, 2vh, 16px);
 
   h2 {
     margin: 0;
+    font-size: clamp(18px, 3vh, 24px);
   }
 }
 
@@ -199,10 +204,10 @@
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: clamp(3px, 0.8vh, 6px);
 
   label {
-    font-size: 14px;
+    font-size: clamp(12px, 2vh, 14px);
     font-weight: 500;
     color: var(--text-h);
   }
@@ -210,10 +215,10 @@
   input,
   select {
     font: inherit;
-    padding: 8px 10px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    background: var(--bg);
+    padding: clamp(5px, 1.2vh, 8px) 10px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border-subtle);
+    background: var(--canvas);
     color: var(--text-h);
   }
 }
@@ -249,7 +254,7 @@
   &.selected {
     background: var(--accent);
     border-color: var(--accent);
-    color: #201400;
+    color: var(--accent-cta-text);
     font-weight: 500;
   }
 }
@@ -264,7 +269,7 @@ button {
 
 button.secondary {
   padding: 10px 18px;
-  border-radius: 8px;
+  border-radius: var(--radius-btn);
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text);
@@ -272,6 +277,27 @@ button.secondary {
 
   &:hover {
     background: var(--code-bg);
+  }
+}
+
+button[type='submit'],
+.quiz-step-actions button:not(.secondary) {
+  padding: 10px 18px;
+  border-radius: var(--radius-btn);
+  border: none;
+  background: var(--accent);
+  color: var(--accent-cta-text);
+  font-weight: 500;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: var(--shadow);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
   }
 }
 
@@ -303,10 +329,36 @@ button.secondary {
   }
 }
 
-.quiz-step-progress {
-  margin: 0;
-  font-size: 14px;
-  color: var(--text);
+.quiz-progress-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border-subtle);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent-5));
+  transition: width 0.35s ease;
+}
+
+.quiz-step-caption {
+  margin: 0 0 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.quiz-step-title {
+  margin: 0 0 4px;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-h);
 }
 
 .quiz-step-hint {
@@ -315,32 +367,61 @@ button.secondary {
 }
 
 .quiz-option-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
   margin-bottom: 24px;
 }
 
 .quiz-option {
+  position: relative;
   font: inherit;
-  padding: 10px 20px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px 12px;
+  border-radius: var(--radius-card);
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-card);
+  background: var(--surface);
   color: var(--text);
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, transform 0.1s;
+  transition: border-color 0.2s;
 
   &:hover {
-    border-color: var(--accent);
+    border-color: var(--border-subtle);
   }
   &.selected {
-    background: var(--accent);
     border-color: var(--accent);
-    color: #201400;
-    font-weight: 500;
-    transform: scale(1.03);
   }
+}
+
+.quiz-option-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.quiz-option-label {
+  font-size: 15px;
+  color: var(--text-h);
+}
+
+.quiz-option-check {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-cta-text);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .quiz-step-actions {

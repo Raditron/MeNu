@@ -1,4 +1,5 @@
 import { calculateCalories } from '../utils/calculateCalories'
+import { getTagIcon } from '../utils/tagIcons'
 import type { Meal } from '../types/meal'
 import { MatchBadge } from './MatchBadge'
 import { TagBadgeList } from './TagBadgeList'
@@ -10,10 +11,13 @@ interface MealCardProps {
 
 export function MealCard({ meal, matchScore }: MealCardProps) {
   const calories = calculateCalories(meal)
+  const icon = getTagIcon('Meat Type', meal.meatType.tagValue.title) ?? '🍽️'
 
   return (
     <article className="meal-card">
-      <img className="meal-card-picture" src={meal.pictureUrl} alt="" />
+      <div className="meal-card-picture" aria-hidden="true">
+        {icon}
+      </div>
       <div className="meal-card-body">
         <div className="meal-card-header">
           <h3>{meal.name}</h3>
