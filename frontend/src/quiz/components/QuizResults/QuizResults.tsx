@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { MealCard } from '../../../meal/components/MealCard/MealCard'
-import { calculateMatchScore } from '../../../meal/utils/calculateMatchScore'
+import { calculateMatchScore } from '@menu/domain/utils/calculateMatchScore'
 import type { QuizResultsProps } from './interfaces/QuizResults.interface'
 import styles from './styles/QuizResults.module.css'
 import listStyles from '../../../shared/styles/list.module.css'

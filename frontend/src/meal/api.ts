@@ -1,7 +1,7 @@
-import type { Catalog } from './types/catalog'
-import type { Meal, Portion } from './types/meal'
-import type { Mood } from './types/mood'
-import type { IngredientTagValue, TagValue } from './types/tagValue'
+import type { Catalog } from '@menu/domain/types/catalog'
+import type { Meal, Portion } from '@menu/domain/types/meal'
+import type { Mood } from '@menu/domain/types/mood'
+import type { IngredientTagValue, TagValue } from '@menu/domain/types/tagValue'
 
 export type NewMeal = Omit<Meal, 'id'>
 

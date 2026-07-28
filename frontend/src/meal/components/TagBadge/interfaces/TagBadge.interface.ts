@@ -1,4 +1,4 @@
-import type { TagValue } from '../../../types/tagValue'
+import type { TagValue } from '@menu/domain/types/tagValue'
 
 export interface TagBadgeProps {
   tagValue: TagValue

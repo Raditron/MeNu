@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { IngredientTagValue } from '../../../../meal/types/tagValue'
+import type { IngredientTagValue } from '@menu/domain/types/tagValue'
 import type { IngredientSelectFieldProps } from './interfaces/IngredientSelectField.interface'
 import styles from './styles/IngredientSelectField.module.css'
 import formFieldStyles from '../../../../shared/styles/formField.module.css'

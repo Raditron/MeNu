@@ -1,5 +1,5 @@
 import { getIngredientIcon } from '../../../meal/utils/ingredientIcons'
-import type { IngredientTagValue } from '../../../meal/types/tagValue'
+import type { IngredientTagValue } from '@menu/domain/types/tagValue'
 import type { QuizOptionProps } from './interfaces/QuizOption.interface'
 import styles from './styles/QuizOption.module.css'
 

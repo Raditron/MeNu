@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { calculateCalories } from '../../meal/utils/calculateCalories'
+import { calculateCalories } from '@menu/domain/utils/calculateCalories'
 import type { NewMeal } from '../../meal/api'
-import type { IngredientTagValue, TagValue } from '../../meal/types/tagValue'
+import type { IngredientTagValue, TagValue } from '@menu/domain/types/tagValue'
 
 export interface IngredientSelection {
   tagValue: IngredientTagValue | null

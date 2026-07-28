@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useCategories } from '../../meal/hooks/useCategories'
-import type { Mood } from '../../meal/types/mood'
-import type { TagValue } from '../../meal/types/tagValue'
+import type { Mood } from '@menu/domain/types/mood'
+import type { TagValue } from '@menu/domain/types/tagValue'
 
 function toggleTagValue(values: TagValue[], value: TagValue): TagValue[] {
   const isSelected = values.some((existing) => existing.title === value.title)

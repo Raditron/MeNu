@@ -1,4 +1,4 @@
-import { calculateCalories } from '../../utils/calculateCalories'
+import { calculateCalories } from '@menu/domain/utils/calculateCalories'
 import { getIngredientIcon } from '../../utils/ingredientIcons'
 import type { MealCardProps } from './interfaces/MealCard.interface'
 import styles from './styles/MealCard.module.css'

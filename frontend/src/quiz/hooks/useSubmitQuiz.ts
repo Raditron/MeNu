@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react'
 import { useGetUserUid } from '../../auth/hooks/useGetUserUid'
 import { submitQuiz as submitQuizRequest } from '../../meal/api'
-import type { Meal } from '../../meal/types/meal'
-import type { Mood } from '../../meal/types/mood'
+import type { Meal } from '@menu/domain/types/meal'
+import type { Mood } from '@menu/domain/types/mood'
 
 export function useSubmitQuiz() {
   const { uid } = useGetUserUid()

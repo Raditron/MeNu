@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import type { Category } from '../types/category'
+import type { Category } from '@menu/domain/types/category'
 import { useCatalog } from './useCatalog'
 
 export function useCategories() {

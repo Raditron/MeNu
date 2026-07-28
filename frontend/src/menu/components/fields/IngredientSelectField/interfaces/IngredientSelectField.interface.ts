@@ -1,4 +1,4 @@
-import type { IngredientTagValue } from '../../../../../meal/types/tagValue'
+import type { IngredientTagValue } from '@menu/domain/types/tagValue'
 import type { IngredientSelection } from '../../../../hooks/useAddMealForm'
 
 export interface IngredientSelectFieldProps {

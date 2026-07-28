@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getCatalog } from '../api'
-import type { Catalog } from '../types/catalog'
+import type { Catalog } from '@menu/domain/types/catalog'
 
 const emptyCatalog: Catalog = { meatTypes: [], sideTypes: [], cuisineStyles: [], flavorProfiles: [] }
 

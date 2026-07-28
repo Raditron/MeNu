@@ -1,5 +1,5 @@
-import type { Category } from '../../../../meal/types/category'
-import type { TagValue } from '../../../../meal/types/tagValue'
+import type { Category } from '@menu/domain/types/category'
+import type { TagValue } from '@menu/domain/types/tagValue'
 
 export interface QuizStepProps {
   stepNumber: number

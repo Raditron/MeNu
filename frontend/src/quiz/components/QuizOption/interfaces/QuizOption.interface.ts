@@ -1,4 +1,4 @@
-import type { TagValue } from '../../../../meal/types/tagValue'
+import type { TagValue } from '@menu/domain/types/tagValue'
 
 export interface QuizOptionProps {
   tagValue: TagValue

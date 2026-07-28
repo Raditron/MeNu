@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useGetUserUid } from "../../auth/hooks/useGetUserUid";
 import { listMeals } from "../api";
-import type { Meal } from "../types/meal";
+import type { Meal } from "@menu/domain/types/meal";
 import { useAddMeal } from "./useAddMeal";
 import type { NewMeal } from "../api";
 

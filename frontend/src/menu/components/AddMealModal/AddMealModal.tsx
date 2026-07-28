@@ -1,6 +1,6 @@
 import type { FormEvent } from "react";
 import { useCategories } from "../../../meal/hooks/useCategories";
-import type { IngredientTagValue } from "../../../meal/types/tagValue";
+import type { IngredientTagValue } from "@menu/domain/types/tagValue";
 import { useAddMealForm } from "../../hooks/useAddMealForm";
 import { CalorieTotal } from "../CalorieTotal/CalorieTotal";
 import { IngredientSelectField } from "../fields/IngredientSelectField/IngredientSelectField";
