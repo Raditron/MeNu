@@ -1,0 +1,13 @@
+{
+  "name": "menu-monorepo",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "packages/domain",
+    "mobile/MeNu"
+  ],
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  }
+}
