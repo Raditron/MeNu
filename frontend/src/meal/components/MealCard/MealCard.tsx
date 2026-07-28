@@ -1,5 +1,5 @@
 import { calculateCalories } from '../../utils/calculateCalories'
-import { getTagIcon } from '../../utils/tagIcons'
+import { getIngredientIcon } from '../../utils/ingredientIcons'
 import type { MealCardProps } from './interfaces/MealCard.interface'
 import styles from './styles/MealCard.module.css'
 import { MatchBadge } from '../MatchBadge/MatchBadge'
@@ -7,12 +7,12 @@ import { TagBadgeList } from '../TagBadgeList/TagBadgeList'
 
 export function MealCard({ meal, matchScore }: MealCardProps) {
   const calories = calculateCalories(meal)
-  const icon = getTagIcon('Meat Type', meal.meatType.tagValue.title) ?? '🍽️'
+  const Icon = getIngredientIcon(meal.meatType.tagValue.icon)
 
   return (
     <article className={styles.mealCard}>
       <div className={styles.mealCardPicture} aria-hidden="true">
-        {icon}
+        {Icon ? <Icon /> : '🍽️'}
       </div>
       <div className={styles.mealCardBody}>
         <div className={styles.mealCardHeader}>

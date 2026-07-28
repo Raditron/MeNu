@@ -30,7 +30,6 @@ export function QuizStep({
         {category.selectionMode === 'single' ? 'Pick one' : 'Pick one or more'}
       </p>
       <QuizOptionList
-        categoryName={category.name}
         options={category.options}
         selections={selections}
         onSelect={onSelect}

@@ -40,8 +40,11 @@ One selectable option within a Category (e.g. "pork" within Meat Type, "tangy" w
 _Avoid_: Option, tag
 
 **Ingredient Tag Value**:
-A Tag Value that also carries a Calorie Density — used only for Meat Type and Side Type values. Cuisine Style and Flavor Profile Tag Values are plain Tag Values with no calorie data.
+A Tag Value that also carries a Calorie Density and an Icon — used only for Meat Type and Side Type values. Cuisine Style and Flavor Profile Tag Values are plain Tag Values with no calorie data or icon.
 _Avoid_: Ingredient tag
+
+**Icon**:
+A picture representing an Ingredient Tag Value (e.g. a pig for "pork"), shown alongside its title in the Quiz and on a Meal's card. Defined only on Ingredient Tag Values.
 
 **Calorie Density**:
 Calories per gram, defined only on Ingredient Tag Values (Meat Type/Side Type; e.g. pork = 2.4 cal/g).
@@ -49,3 +52,15 @@ Calories per gram, defined only on Ingredient Tag Values (Meat Type/Side Type; e
 **Portion**:
 The gram amount a Meal contains of its Meat Type and Side Type Tag Value. Combined with that Tag Value's Calorie Density to compute the Meal's total calories.
 _Avoid_: Serving size, quantity
+
+**Protected Route**:
+A route that requires an authenticated Session to view. Visiting it while unauthenticated redirects to `/login`.
+_Avoid_: Private route, guarded route
+
+**Public Route**:
+A route accessible regardless of auth state. The explicit allowlist against the default-protected model: `/login`, `/register`, `/forgot-password`, `/change-password`.
+_Avoid_: Open route, unguarded route
+
+**Session**:
+The current signed-in user's authentication state, sourced from Firebase Auth. Absent for an unauthenticated visitor; unresolved for a brief moment on initial load until Firebase reports back.
+_Avoid_: Auth state

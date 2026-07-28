@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react'
-import { listCategories } from '../../backend-temp/api'
+import { useMemo } from 'react'
 import type { Category } from '../types/category'
+import { useCatalog } from './useCatalog'
 
 export function useCategories() {
-  const [categories, setCategories] = useState<Category[]>([])
-  const [loading, setLoading] = useState(true)
+  const { catalog, loading } = useCatalog()
 
-  useEffect(() => {
-    listCategories().then((result) => {
-      setCategories(result)
-      setLoading(false)
-    })
-  }, [])
+  const categories = useMemo<Category[]>(
+    () => [
+      { name: 'Meat Type', selectionMode: 'single', options: catalog.meatTypes },
+      { name: 'Side Type', selectionMode: 'single', options: catalog.sideTypes },
+      { name: 'Cuisine Style', selectionMode: 'multi', options: catalog.cuisineStyles },
+      { name: 'Flavor Profile', selectionMode: 'multi', options: catalog.flavorProfiles },
+    ],
+    [catalog],
+  )
 
   return { categories, loading }
 }

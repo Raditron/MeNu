@@ -1,9 +1,14 @@
-import { getTagIcon } from '../../../meal/utils/tagIcons'
+import { getIngredientIcon } from '../../../meal/utils/ingredientIcons'
+import type { IngredientTagValue } from '../../../meal/types/tagValue'
 import type { QuizOptionProps } from './interfaces/QuizOption.interface'
 import styles from './styles/QuizOption.module.css'
 
-export function QuizOption({ categoryName, tagValue, selected, onSelect }: QuizOptionProps) {
-  const icon = getTagIcon(categoryName, tagValue.title)
+function isIngredientTagValue(tagValue: QuizOptionProps['tagValue']): tagValue is IngredientTagValue {
+  return 'icon' in tagValue
+}
+
+export function QuizOption({ tagValue, selected, onSelect }: QuizOptionProps) {
+  const Icon = isIngredientTagValue(tagValue) ? getIngredientIcon(tagValue.icon) : undefined
 
   return (
     <button
@@ -16,9 +21,9 @@ export function QuizOption({ categoryName, tagValue, selected, onSelect }: QuizO
           ✓
         </span>
       )}
-      {icon && (
+      {Icon && (
         <span className={styles.quizOptionIcon} aria-hidden="true">
-          {icon}
+          <Icon />
         </span>
       )}
       <span className={styles.quizOptionLabel}>{tagValue.title}</span>

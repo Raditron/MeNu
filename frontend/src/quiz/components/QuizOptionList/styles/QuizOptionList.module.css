@@ -7,3 +7,16 @@
   flex: 1 1 auto;
   min-height: 0;
 }
+
+.showMoreButton {
+  font: inherit;
+  align-self: center;
+  margin-bottom: clamp(12px, 2.4vh, 24px);
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-card);
+  background: none;
+  color: var(--text-h);
+  text-decoration: underline;
+  cursor: pointer;
+}

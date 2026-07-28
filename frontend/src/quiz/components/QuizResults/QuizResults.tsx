@@ -1,15 +1,12 @@
 import { useMemo } from 'react'
 import { MealCard } from '../../../meal/components/MealCard/MealCard'
-import { useMeals } from '../../../meal/hooks/useMeals'
 import { calculateMatchScore } from '../../../meal/utils/calculateMatchScore'
 import type { QuizResultsProps } from './interfaces/QuizResults.interface'
 import styles from './styles/QuizResults.module.css'
 import listStyles from '../../../shared/styles/list.module.css'
 import buttonStyles from '../../../shared/styles/button.module.css'
 
-export function QuizResults({ mood, onRestart }: QuizResultsProps) {
-  const { meals, loading } = useMeals()
-
+export function QuizResults({ mood, meals, onRestart }: QuizResultsProps) {
   const rankedMeals = useMemo(
     () =>
       meals
@@ -26,17 +23,13 @@ export function QuizResults({ mood, onRestart }: QuizResultsProps) {
           Retake quiz
         </button>
       </div>
-      {loading ? (
-        <p>Loading meals…</p>
-      ) : (
-        <ul className={listStyles.mealList}>
-          {rankedMeals.map(({ meal, matchScore }) => (
-            <li key={meal.id}>
-              <MealCard meal={meal} matchScore={matchScore} />
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul className={listStyles.mealList}>
+        {rankedMeals.map(({ meal, matchScore }) => (
+          <li key={meal.id}>
+            <MealCard meal={meal} matchScore={matchScore} />
+          </li>
+        ))}
+      </ul>
     </section>
   )
 }

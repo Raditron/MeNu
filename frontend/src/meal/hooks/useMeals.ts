@@ -1,22 +1,37 @@
-import { useCallback, useEffect, useState } from 'react'
-import { listMeals } from '../../backend-temp/api'
-import type { Meal } from '../types/meal'
+import { useCallback, useEffect, useState } from "react";
+import { useGetUserUid } from "../../auth/hooks/useGetUserUid";
+import { listMeals } from "../api";
+import type { Meal } from "../types/meal";
+import { useAddMeal } from "./useAddMeal";
+import type { NewMeal } from "../api";
 
 export function useMeals() {
-  const [meals, setMeals] = useState<Meal[]>([])
-  const [loading, setLoading] = useState(true)
+  const { uid } = useGetUserUid();
+  const [meals, setMeals] = useState<Meal[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { addMeal: addMealRequest, submitting } = useAddMeal();
 
   const refetch = useCallback(() => {
-    setLoading(true)
-    return listMeals().then((result) => {
-      setMeals(result)
-      setLoading(false)
-    })
-  }, [])
+    if (!uid) {
+      setMeals([]);
+      setLoading(false);
+      return Promise.resolve();
+    }
+    setLoading(true);
+    return listMeals(uid).then(result => {
+      setMeals(result);
+      setLoading(false);
+    });
+  }, [uid]);
+
+  const addMeal = useCallback(
+    (meal: NewMeal) => addMealRequest(meal).then(() => refetch()),
+    [addMealRequest, refetch],
+  );
 
   useEffect(() => {
-    refetch()
-  }, [refetch])
+    refetch();
+  }, [refetch]);
 
-  return { meals, loading, refetch }
+  return { meals, loading, refetch, addMeal, addingMeal: submitting };
 }

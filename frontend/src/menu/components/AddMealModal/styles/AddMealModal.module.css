@@ -15,7 +15,7 @@
   box-shadow: var(--shadow-modal);
   border-radius: 22px;
   padding: clamp(14px, 4vh, 24px);
-  width: 480px;
+  width: 100vh;
   max-width: 100%;
   max-height: 96vh;
   display: flex;

@@ -1,6 +1,7 @@
 import {
   confirmPasswordReset as firebaseConfirmPasswordReset,
   createUserWithEmailAndPassword,
+  deleteUser,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
@@ -25,4 +26,14 @@ export function confirmPasswordReset(oobCode: string, newPassword: string) {
 
 export function signOut() {
   return firebaseSignOut(auth)
+}
+
+// Compensating action for when a Firebase account was created but the
+// paired backend registration failed — undoes the Firebase side effect
+// so the email isn't stuck in "already in use" limbo.
+export function deleteCurrentUser() {
+  if (!auth.currentUser) {
+    return Promise.resolve()
+  }
+  return deleteUser(auth.currentUser)
 }

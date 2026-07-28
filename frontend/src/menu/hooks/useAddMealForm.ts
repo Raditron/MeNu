@@ -1,8 +1,6 @@
 import { useState } from 'react'
-import { addMeal } from '../../backend-temp/api'
-import { PLACEHOLDER_MEAL_PICTURE } from '../../backend-temp/data/meals'
 import { calculateCalories } from '../../meal/utils/calculateCalories'
-import type { Meal } from '../../meal/types/meal'
+import type { NewMeal } from '../../meal/api'
 import type { IngredientTagValue, TagValue } from '../../meal/types/tagValue'
 
 export interface IngredientSelection {
@@ -17,7 +15,7 @@ function toggleTagValue(values: TagValue[], value: TagValue): TagValue[] {
   return isSelected ? values.filter((existing) => existing.title !== value.title) : [...values, value]
 }
 
-export function useAddMealForm() {
+export function useAddMealForm(addMeal: (meal: NewMeal) => Promise<void>) {
   const [name, setName] = useState('')
   const [meatType, setMeatType] = useState<IngredientSelection>(emptyIngredient)
   const [sideType, setSideType] = useState<IngredientSelection>(emptyIngredient)
@@ -48,12 +46,11 @@ export function useAddMealForm() {
     setFlavorProfiles((prev) => toggleTagValue(prev, value))
   }
 
-  function submit(): Promise<Meal> | null {
+  function submit(): Promise<void> | null {
     if (!canSubmit || !meatType.tagValue || !sideType.tagValue) return null
     setSubmitting(true)
     return addMeal({
       name: name.trim(),
-      pictureUrl: PLACEHOLDER_MEAL_PICTURE,
       meatType: { tagValue: meatType.tagValue, grams: meatType.grams },
       sideType: { tagValue: sideType.tagValue, grams: sideType.grams },
       cuisineStyles,

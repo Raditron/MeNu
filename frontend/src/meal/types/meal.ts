@@ -8,7 +8,7 @@ export interface Portion {
 export interface Meal {
   id: string
   name: string
-  pictureUrl: string
+  pictureUrl?: string
   meatType: Portion
   sideType: Portion
   cuisineStyles: TagValue[]

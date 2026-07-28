@@ -2,10 +2,78 @@
   display: flex;
   gap: 8px;
 
-  select {
-    flex: 2 1 0;
-  }
-  input {
+  input[type='number'] {
     flex: 1 1 0;
   }
+}
+
+.combobox {
+  position: relative;
+  flex: 2 1 0;
+
+  input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.comboboxToggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 28px;
+  border: none;
+  background: none;
+  color: var(--text-soft);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.comboboxList {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: var(--surface);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 20;
+}
+
+.comboboxOption {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  font: inherit;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--text-h);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--accent-bg);
+  }
+
+  &.selected {
+    background: var(--accent-bg);
+    color: var(--accent-5);
+    font-weight: 500;
+  }
+}
+
+.comboboxEmpty {
+  padding: 6px 10px;
+  color: var(--text-soft);
+  font-size: 0.9em;
 }
