@@ -3,6 +3,7 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "dependencies": {
+    "@react-native-async-storage/async-storage": "2.2.0",
     "expo": "~57.0.8",
     "expo-constants": "~57.0.7",
     "expo-font": "~57.0.1",
@@ -44,7 +45,9 @@
       "<rootDir>/test/setup.ts"
     ],
     "moduleNameMapper": {
-      "^firebase/auth$": "<rootDir>/test/mocks/firebaseAuth.ts"
+      "^firebase/auth$": "<rootDir>/test/mocks/firebaseAuth.ts",
+      "^firebase/app$": "<rootDir>/test/mocks/firebaseApp.ts",
+      "^@react-native-async-storage/async-storage$": "@react-native-async-storage/async-storage/jest/async-storage-mock"
     }
   }
 }
