@@ -6,6 +6,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import { useAppTheme } from '@/theme';
+import { SessionProvider } from '@/auth/session/SessionProvider';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -56,10 +57,12 @@ function RootLayoutNav() {
   };
 
   return (
-    <ThemeProvider value={navigationTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-    </ThemeProvider>
+    <SessionProvider>
+      <ThemeProvider value={navigationTheme}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </ThemeProvider>
+    </SessionProvider>
   );
 }
