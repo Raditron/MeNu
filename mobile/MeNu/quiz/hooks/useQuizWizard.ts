@@ -15,6 +15,8 @@ export function useQuizWizard() {
 
   const selections = selectedByStep[stepIndex] ?? [];
   const currentCategory = categories[stepIndex];
+  const canGoBack = stepIndex > 0;
+  const canGoNext = selections.length > 0;
 
   function selectOption(option: TagValue) {
     if (!currentCategory) return;
@@ -33,6 +35,15 @@ export function useQuizWizard() {
     }
   }
 
+  function goBack() {
+    setStepIndex((index) => Math.max(index - 1, 0));
+  }
+
+  function goNext() {
+    if (!canGoNext) return;
+    setStepIndex((index) => Math.min(index + 1, categories.length - 1));
+  }
+
   return {
     loading,
     categories,
@@ -40,5 +51,9 @@ export function useQuizWizard() {
     currentCategory,
     selections,
     selectOption,
+    canGoBack,
+    canGoNext,
+    goBack,
+    goNext,
   };
 }

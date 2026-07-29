@@ -6,7 +6,8 @@ import { useAppTheme } from '@/theme';
 
 export default function QuizScreen() {
   const theme = useAppTheme();
-  const { loading, categories, stepIndex, currentCategory, selections, selectOption } = useQuizWizard();
+  const { loading, categories, stepIndex, currentCategory, selections, selectOption, canGoBack, canGoNext, goBack, goNext } =
+    useQuizWizard();
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: theme.canvas }} contentContainerStyle={styles.content}>
@@ -20,6 +21,7 @@ export default function QuizScreen() {
             category={currentCategory}
             selections={selections}
             onSelect={selectOption}
+            navigation={{ canGoBack, onBack: goBack, canGoNext, onNext: goNext }}
           />
         )
       )}

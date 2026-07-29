@@ -23,4 +23,21 @@ export const styles = StyleSheet.create({
   hint: {
     fontSize: 14,
   },
+  actions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 16,
+  },
+  actionButton: {
+    padding: 14,
+    alignItems: 'center',
+  },
+  actionButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  nextButton: {
+    marginLeft: 'auto',
+  },
 });

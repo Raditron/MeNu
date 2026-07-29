@@ -88,3 +88,88 @@ describe('Quiz wizard single-select steps', () => {
     expect(screen.getByText('Step 3 of 4')).toBeOnTheScreen();
   });
 });
+
+async function advanceToCuisineStyle() {
+  await fireEvent.press(await screen.findByTestId('Meat Type-option-Chicken'));
+  await fireEvent.press(await screen.findByTestId('Side Type-option-Rice'));
+  await screen.findByText('Cuisine Style');
+}
+
+describe('Quiz wizard multi-select steps', () => {
+  it('allows picking more than one option and keeps Next disabled until one is picked', async () => {
+    mockAuthState(fakeUser);
+    stubFetchByUrl({ '/api/catalog': catalog });
+
+    await renderApp('/quiz');
+    await advanceToCuisineStyle();
+
+    expect(screen.getByTestId('quiz-next').props.accessibilityState.disabled).toBe(true);
+
+    await fireEvent.press(screen.getByTestId('Cuisine Style-option-Italian'));
+    expect(screen.getByTestId('quiz-next').props.accessibilityState.disabled).toBe(false);
+
+    await fireEvent.press(screen.getByTestId('Cuisine Style-option-Asian'));
+    expect(screen.getByText('Cuisine Style')).toBeOnTheScreen();
+    expect(screen.getByTestId('Cuisine Style-option-Italian').props.accessibilityState.selected).toBe(true);
+    expect(screen.getByTestId('Cuisine Style-option-Asian').props.accessibilityState.selected).toBe(true);
+  });
+
+  it('stays on the multi-select step until Next is explicitly tapped', async () => {
+    mockAuthState(fakeUser);
+    stubFetchByUrl({ '/api/catalog': catalog });
+
+    await renderApp('/quiz');
+    await advanceToCuisineStyle();
+
+    await fireEvent.press(screen.getByTestId('Cuisine Style-option-Italian'));
+    expect(screen.getByText('Cuisine Style')).toBeOnTheScreen();
+
+    await fireEvent.press(screen.getByTestId('quiz-next'));
+    expect(await screen.findByText('Flavor Profile')).toBeOnTheScreen();
+    expect(screen.getByText('Step 4 of 4')).toBeOnTheScreen();
+  });
+});
+
+describe('Quiz wizard back navigation', () => {
+  it('has no Back action on the first question', async () => {
+    mockAuthState(fakeUser);
+    stubFetchByUrl({ '/api/catalog': catalog });
+
+    await renderApp('/quiz');
+    await screen.findByText('Meat Type');
+
+    expect(screen.queryByTestId('quiz-back')).toBeNull();
+  });
+
+  it('returns to the previous single-select question with its prior answer still selected and editable', async () => {
+    mockAuthState(fakeUser);
+    stubFetchByUrl({ '/api/catalog': catalog });
+
+    await renderApp('/quiz');
+    await advanceToCuisineStyle();
+
+    await fireEvent.press(screen.getByTestId('quiz-back'));
+    expect(await screen.findByText('Side Type')).toBeOnTheScreen();
+    expect(screen.getByTestId('Side Type-option-Rice').props.accessibilityState.selected).toBe(true);
+
+    await fireEvent.press(screen.getByTestId('Side Type-option-Pasta'));
+    expect(await screen.findByText('Cuisine Style')).toBeOnTheScreen();
+  });
+
+  it('returns from a multi-select question to the previous one without losing its selections', async () => {
+    mockAuthState(fakeUser);
+    stubFetchByUrl({ '/api/catalog': catalog });
+
+    await renderApp('/quiz');
+    await advanceToCuisineStyle();
+    await fireEvent.press(screen.getByTestId('Cuisine Style-option-Italian'));
+    await fireEvent.press(screen.getByTestId('quiz-next'));
+
+    await screen.findByText('Flavor Profile');
+    await fireEvent.press(screen.getByTestId('quiz-back'));
+
+    expect(await screen.findByText('Cuisine Style')).toBeOnTheScreen();
+    expect(screen.getByTestId('Cuisine Style-option-Italian').props.accessibilityState.selected).toBe(true);
+    expect(screen.getByTestId('quiz-next').props.accessibilityState.disabled).toBe(false);
+  });
+});

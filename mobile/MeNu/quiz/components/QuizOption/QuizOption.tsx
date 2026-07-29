@@ -16,6 +16,7 @@ export function QuizOption({ label, tagValue, selected, onSelect }: QuizOptionPr
   return (
     <Pressable
       testID={`${label}-option-${tagValue.title}`}
+      accessibilityState={{ selected }}
       onPress={() => onSelect(tagValue)}
       style={[
         styles.option,
