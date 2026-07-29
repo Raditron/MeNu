@@ -1,5 +1,6 @@
 import type { Catalog } from '@menu/domain/types/catalog';
 import type { Meal, Portion } from '@menu/domain/types/meal';
+import type { Mood } from '@menu/domain/types/mood';
 import type { IngredientTagValue, TagValue } from '@menu/domain/types/tagValue';
 
 export type NewMeal = Omit<Meal, 'id'>;
@@ -86,4 +87,20 @@ export async function addMeal(uid: string, meal: NewMeal): Promise<void> {
     const { error } = await response.json();
     throw new Error(error ?? 'Error adding meal');
   }
+}
+
+export async function submitQuiz(uid: string, mood: Mood): Promise<Meal[]> {
+  const response = await fetch(`/api/users/${uid}/quiz`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ mood }),
+  });
+
+  if (!response.ok) {
+    const { error } = await response.json();
+    throw new Error(error ?? 'Error submitting quiz');
+  }
+
+  const { meals }: { meals: BackendMeal[] } = await response.json();
+  return meals.map(toMeal);
 }

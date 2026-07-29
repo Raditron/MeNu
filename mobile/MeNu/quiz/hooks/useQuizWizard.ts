@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import type { Mood } from '@menu/domain/types/mood';
 import type { TagValue } from '@menu/domain/types/tagValue';
 import { useCategories } from '../../meal/hooks/useCategories';
 
@@ -12,11 +13,27 @@ export function useQuizWizard() {
   const { categories, loading } = useCategories();
   const [stepIndex, setStepIndex] = useState(0);
   const [selectedByStep, setSelectedByStep] = useState<TagValue[][]>([]);
+  const [mood, setMood] = useState<Mood | null>(null);
 
   const selections = selectedByStep[stepIndex] ?? [];
   const currentCategory = categories[stepIndex];
   const canGoBack = stepIndex > 0;
   const canGoNext = selections.length > 0;
+
+  function advance(currentSelections: TagValue[]) {
+    if (stepIndex === categories.length - 1) {
+      const byStep = [...selectedByStep];
+      byStep[stepIndex] = currentSelections;
+      setMood({
+        meatType: byStep[0][0],
+        sideType: byStep[1][0],
+        cuisineStyles: byStep[2] ?? [],
+        flavorProfiles: byStep[3] ?? [],
+      });
+      return;
+    }
+    setStepIndex((index) => index + 1);
+  }
 
   function selectOption(option: TagValue) {
     if (!currentCategory) return;
@@ -30,9 +47,7 @@ export function useQuizWizard() {
       return next;
     });
 
-    if (isSingleSelect) {
-      setStepIndex((index) => Math.min(index + 1, categories.length - 1));
-    }
+    if (isSingleSelect) advance(updatedSelections);
   }
 
   function goBack() {
@@ -41,7 +56,13 @@ export function useQuizWizard() {
 
   function goNext() {
     if (!canGoNext) return;
-    setStepIndex((index) => Math.min(index + 1, categories.length - 1));
+    advance(selections);
+  }
+
+  function restart() {
+    setStepIndex(0);
+    setSelectedByStep([]);
+    setMood(null);
   }
 
   return {
@@ -50,10 +71,12 @@ export function useQuizWizard() {
     stepIndex,
     currentCategory,
     selections,
+    mood,
     selectOption,
     canGoBack,
     canGoNext,
     goBack,
     goNext,
+    restart,
   };
 }

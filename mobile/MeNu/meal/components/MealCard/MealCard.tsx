@@ -4,11 +4,12 @@ import { calculateCalories } from '@menu/domain/utils/calculateCalories';
 
 import { useAppTheme } from '@/theme';
 import { IngredientIcon } from '../IngredientIcon/IngredientIcon';
+import { MatchBadge } from '../MatchBadge/MatchBadge';
 import { TagBadgeList } from '../TagBadgeList/TagBadgeList';
 import type { MealCardProps } from './interfaces/MealCard.interface';
 import { styles } from './styles/MealCard.styles';
 
-export function MealCard({ meal }: MealCardProps) {
+export function MealCard({ meal, matchScore }: MealCardProps) {
   const theme = useAppTheme();
   const calories = calculateCalories(meal);
 
@@ -20,6 +21,7 @@ export function MealCard({ meal }: MealCardProps) {
       <View style={styles.body}>
         <View style={styles.header}>
           <Text style={[styles.name, { color: theme.textH }]}>{meal.name}</Text>
+          {matchScore !== undefined && <MatchBadge matchScore={matchScore} />}
         </View>
         <Text style={[styles.portions, { color: theme.text }]}>
           {meal.meatType.tagValue.title} ({meal.meatType.grams}g) · {meal.sideType.tagValue.title} ({meal.sideType.grams}g)
