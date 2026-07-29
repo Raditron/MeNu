@@ -10,9 +10,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  pictureGlyph: {
-    fontSize: 56,
-  },
   body: {
     padding: 16,
     gap: 8,

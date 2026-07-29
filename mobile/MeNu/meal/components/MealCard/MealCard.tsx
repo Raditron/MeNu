@@ -3,11 +3,11 @@ import { Text, View } from 'react-native';
 import { calculateCalories } from '@menu/domain/utils/calculateCalories';
 
 import { useAppTheme } from '@/theme';
+import { IngredientIcon } from '../IngredientIcon/IngredientIcon';
 import { TagBadgeList } from '../TagBadgeList/TagBadgeList';
 import type { MealCardProps } from './interfaces/MealCard.interface';
 import { styles } from './styles/MealCard.styles';
 
-/** Real ingredient icon rendering lands in a follow-up ticket — this is a placeholder glyph. */
 export function MealCard({ meal }: MealCardProps) {
   const theme = useAppTheme();
   const calories = calculateCalories(meal);
@@ -15,9 +15,7 @@ export function MealCard({ meal }: MealCardProps) {
   return (
     <View style={[styles.card, { backgroundColor: theme.surface, borderRadius: theme.radiusCard }, theme.shadowCard]}>
       <View style={[styles.picture, { backgroundColor: theme.tagBg }]}>
-        <Text accessible={false} style={styles.pictureGlyph}>
-          🍽️
-        </Text>
+        <IngredientIcon iconKey={meal.meatType.tagValue.icon} size={56} color={theme.textH} />
       </View>
       <View style={styles.body}>
         <View style={styles.header}>

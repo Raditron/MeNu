@@ -34,6 +34,20 @@ describe('Menu tab', () => {
     expect(screen.getByText('Italian')).toBeOnTheScreen();
     expect(screen.getByText('Spicy')).toBeOnTheScreen();
     expect(screen.getByText('300 cal')).toBeOnTheScreen();
+    expect(screen.getByTestId('ingredient-icon-svg')).toBeOnTheScreen();
+  });
+
+  it('shows the neutral fallback glyph for a meal whose meat type icon has no match', async () => {
+    mockAuthState(fakeUser);
+    stubFetchWithMeals([
+      { ...backendMeal, meatType: { ...backendMeal.meatType, ingredient: { ...backendMeal.meatType.ingredient, icon: 'GiNotARealIcon' } } },
+    ]);
+
+    await renderApp('/');
+
+    expect(await screen.findByText('Chicken and Rice')).toBeOnTheScreen();
+    expect(screen.queryByTestId('ingredient-icon-svg')).not.toBeOnTheScreen();
+    expect(screen.getByText('🍽️')).toBeOnTheScreen();
   });
 
   it('shows a "no meals yet" message for a user with zero meals', async () => {
