@@ -15,7 +15,7 @@ export function NavBar() {
       <div className={styles.header}>
         <span className={styles.navBrand}>MeNu</span>
         <p className={styles.greeting}>
-          Hello, <span className={styles.greetingName}>{user?.email.split('@')[0]}</span>
+          Hello, <span className={styles.greetingName}>{user?.email?.split('@')[0]}</span>
         </p>
       </div>
       <div className={styles.navLinks}>
