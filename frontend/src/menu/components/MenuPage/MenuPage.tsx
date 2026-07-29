@@ -16,7 +16,7 @@ export function MenuPage() {
         <AddMealButton onMealAdded={refetch} />
       </div>
       {loading ? <p>Loading meals…</p> : <MealList meals={meals} />}
-      {meals.length === 0 && <p>No meals yet.</p>}
+      {!loading && meals.length === 0 && <p>No meals yet.</p>}
     </section>
   )
 }
