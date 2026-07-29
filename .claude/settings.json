@@ -66,7 +66,14 @@
       "Bash(curl -s http://localhost:5000/api/catalog)",
       "Bash(xargs -I{} sh -c 'echo ==={}===; head -5 {}')",
       "Bash(timeout 90 npx --yes knip)",
-      "Bash(npx --yes knip)"
+      "Bash(npx --yes knip)",
+      "Bash(bash \"C:\\\\Users\\\\Radi\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-Radi-Desktop-Developer-MeNu\\\\ae3ef9a7-a704-40dc-8762-0c92588a86b9\\\\scratchpad\\\\create-tickets.sh\")",
+      "Bash(bash \"C:\\\\Users\\\\Radi\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-Radi-Desktop-Developer-MeNu\\\\ae3ef9a7-a704-40dc-8762-0c92588a86b9\\\\scratchpad\\\\wire-deps.sh\")",
+      "Bash(node -e \"console.log\\(require\\('./frontend/node_modules/react/package.json'\\).version\\)\")",
+      "Bash(node -e \"console.log\\(require\\('./frontend/node_modules/react-dom/package.json'\\).version\\)\")",
+      "Bash(node -e \"console.log\\(require\\('./frontend/node_modules/@testing-library/react/package.json'\\).version\\)\")",
+      "Bash(git worktree *)",
+      "Bash(npm ci *)"
     ]
   }
 }

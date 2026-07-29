@@ -1,4 +1,4 @@
-import { useColorScheme } from '@/components/useColorScheme';
+import { useThemeScheme } from '@/theme/useThemeScheme';
 
 /**
  * Mobile's mirror of web's `frontend/src/index.css` CSS custom properties
@@ -149,5 +149,5 @@ export const themes: Record<'light' | 'dark', ThemeTokens> = { light, dark };
 
 /** Named to avoid colliding with `@react-navigation/native`'s own `useTheme`. */
 export function useAppTheme(): ThemeTokens {
-  return themes[useColorScheme()];
+  return themes[useThemeScheme().scheme];
 }

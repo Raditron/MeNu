@@ -4,8 +4,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/components/useColorScheme';
 import { useAppTheme } from '@/theme';
+import { ThemeSchemeProvider } from '@/theme/ThemeSchemeProvider';
+import { useThemeScheme } from '@/theme/useThemeScheme';
 import { SessionProvider } from '@/auth/session/SessionProvider';
 
 export {
@@ -40,13 +41,17 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <ThemeSchemeProvider>
+      <RootLayoutNav />
+    </ThemeSchemeProvider>
+  );
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  const { scheme } = useThemeScheme();
   const theme = useAppTheme();
-  const baseNavigationTheme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
+  const baseNavigationTheme = scheme === 'dark' ? DarkTheme : DefaultTheme;
   const navigationTheme = {
     ...baseNavigationTheme,
     colors: {

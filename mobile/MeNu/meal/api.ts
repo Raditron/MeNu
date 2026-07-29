@@ -2,6 +2,7 @@ import type { Catalog } from '@menu/domain/types/catalog';
 import type { Meal, Portion } from '@menu/domain/types/meal';
 import type { Mood } from '@menu/domain/types/mood';
 import type { IngredientTagValue, TagValue } from '@menu/domain/types/tagValue';
+import { API_BASE_URL } from '@/shared/api/config';
 
 export type NewMeal = Omit<Meal, 'id'>;
 
@@ -46,7 +47,7 @@ function toMeal(meal: BackendMeal): Meal {
 }
 
 export async function listMeals(uid: string): Promise<Meal[]> {
-  const response = await fetch(`/api/users/${uid}/meals`);
+  const response = await fetch(`${API_BASE_URL}/api/users/${uid}/meals`);
 
   if (!response.ok) {
     const { error } = await response.json();
@@ -58,7 +59,7 @@ export async function listMeals(uid: string): Promise<Meal[]> {
 }
 
 export async function getCatalog(): Promise<Catalog> {
-  const response = await fetch('/api/catalog');
+  const response = await fetch(`${API_BASE_URL}/api/catalog`);
 
   if (!response.ok) {
     const { error } = await response.json();
@@ -69,7 +70,7 @@ export async function getCatalog(): Promise<Catalog> {
 }
 
 export async function addMeal(uid: string, meal: NewMeal): Promise<void> {
-  const response = await fetch(`/api/users/${uid}/meal`, {
+  const response = await fetch(`${API_BASE_URL}/api/users/${uid}/meal`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -90,7 +91,7 @@ export async function addMeal(uid: string, meal: NewMeal): Promise<void> {
 }
 
 export async function submitQuiz(uid: string, mood: Mood): Promise<Meal[]> {
-  const response = await fetch(`/api/users/${uid}/quiz`, {
+  const response = await fetch(`${API_BASE_URL}/api/users/${uid}/quiz`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ mood }),
