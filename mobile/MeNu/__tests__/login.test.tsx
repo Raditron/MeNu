@@ -50,4 +50,16 @@ describe('login route', () => {
 
     expect(await screen.findByText('Incorrect email or password.')).toBeOnTheScreen();
   });
+
+  it('redirects an already signed-in user straight to the protected shell', async () => {
+    const testUser = { uid: 'abc123', email: 'test@example.com' } as User;
+    mockAuthState(testUser);
+
+    await renderApp('/login');
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Menu').length).toBeGreaterThan(0);
+    });
+    expect(screen.queryByPlaceholderText('Email')).toBeNull();
+  });
 });

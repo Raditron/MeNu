@@ -1,6 +1,7 @@
 import { Link } from 'expo-router';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
+import { PublicOnlyGate } from '@/auth/components/PublicOnlyGate';
 import { useLoginForm } from '@/auth/hooks/useLoginForm';
 import { useAppTheme } from '@/theme';
 
@@ -9,43 +10,45 @@ export default function LoginScreen() {
   const form = useLoginForm();
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.canvas }]}>
-      <Text style={[styles.title, { color: theme.textH }]}>Log in</Text>
-      <TextInput
-        style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: theme.surface }]}
-        placeholder="Email"
-        placeholderTextColor={theme.textSoft}
-        value={form.email}
-        onChangeText={form.setEmail}
-        autoCapitalize="none"
-        autoComplete="email"
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: theme.surface }]}
-        placeholder="Password"
-        placeholderTextColor={theme.textSoft}
-        value={form.password}
-        onChangeText={form.setPassword}
-        autoCapitalize="none"
-        autoComplete="current-password"
-        secureTextEntry
-      />
-      {form.error && <Text style={[styles.error, { color: theme.danger }]}>{form.error}</Text>}
-      <Pressable
-        testID="login-submit"
-        style={[styles.button, { backgroundColor: theme.accent, borderRadius: theme.radiusBtn }]}
-        onPress={form.submit}
-        disabled={form.submitting}
-      >
-        <Text style={[styles.buttonText, { color: theme.accentCtaText }]}>
-          {form.submitting ? 'Logging in…' : 'Log in'}
-        </Text>
-      </Pressable>
-      <Link href="/register" style={styles.link}>
-        <Text style={{ color: theme.textSoft }}>Need an account? Sign up</Text>
-      </Link>
-    </View>
+    <PublicOnlyGate>
+      <View style={[styles.container, { backgroundColor: theme.canvas }]}>
+        <Text style={[styles.title, { color: theme.textH }]}>Log in</Text>
+        <TextInput
+          style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: theme.surface }]}
+          placeholder="Email"
+          placeholderTextColor={theme.textSoft}
+          value={form.email}
+          onChangeText={form.setEmail}
+          autoCapitalize="none"
+          autoComplete="email"
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: theme.surface }]}
+          placeholder="Password"
+          placeholderTextColor={theme.textSoft}
+          value={form.password}
+          onChangeText={form.setPassword}
+          autoCapitalize="none"
+          autoComplete="current-password"
+          secureTextEntry
+        />
+        {form.error && <Text style={[styles.error, { color: theme.danger }]}>{form.error}</Text>}
+        <Pressable
+          testID="login-submit"
+          style={[styles.button, { backgroundColor: theme.accent, borderRadius: theme.radiusBtn }]}
+          onPress={form.submit}
+          disabled={form.submitting}
+        >
+          <Text style={[styles.buttonText, { color: theme.accentCtaText }]}>
+            {form.submitting ? 'Logging in…' : 'Log in'}
+          </Text>
+        </Pressable>
+        <Link href="/register" style={styles.link}>
+          <Text style={{ color: theme.textSoft }}>Need an account? Sign up</Text>
+        </Link>
+      </View>
+    </PublicOnlyGate>
   );
 }
 

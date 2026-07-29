@@ -62,4 +62,16 @@ describe('register route', () => {
 
     expect(await screen.findByText('An account with that email already exists.')).toBeOnTheScreen();
   });
+
+  it('redirects an already signed-in user straight to the protected shell', async () => {
+    const testUser = { uid: 'abc123', email: 'test@example.com' } as User;
+    mockAuthState(testUser);
+
+    await renderApp('/register');
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Menu').length).toBeGreaterThan(0);
+    });
+    expect(screen.queryByPlaceholderText('Email')).toBeNull();
+  });
 });

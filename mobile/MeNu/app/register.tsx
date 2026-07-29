@@ -1,6 +1,7 @@
 import { Link } from 'expo-router';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
+import { PublicOnlyGate } from '@/auth/components/PublicOnlyGate';
 import { useRegisterForm } from '@/auth/hooks/useRegisterForm';
 import { useAppTheme } from '@/theme';
 
@@ -9,53 +10,55 @@ export default function RegisterScreen() {
   const form = useRegisterForm();
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.canvas }]}>
-      <Text style={[styles.title, { color: theme.textH }]}>Create account</Text>
-      <TextInput
-        style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: theme.surface }]}
-        placeholder="Email"
-        placeholderTextColor={theme.textSoft}
-        value={form.email}
-        onChangeText={form.setEmail}
-        autoCapitalize="none"
-        autoComplete="email"
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: theme.surface }]}
-        placeholder="Password"
-        placeholderTextColor={theme.textSoft}
-        value={form.password}
-        onChangeText={form.setPassword}
-        autoCapitalize="none"
-        autoComplete="new-password"
-        secureTextEntry
-      />
-      <TextInput
-        style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: theme.surface }]}
-        placeholder="Confirm password"
-        placeholderTextColor={theme.textSoft}
-        value={form.confirmPassword}
-        onChangeText={form.setConfirmPassword}
-        autoCapitalize="none"
-        autoComplete="new-password"
-        secureTextEntry
-      />
-      {form.error && <Text style={[styles.error, { color: theme.danger }]}>{form.error}</Text>}
-      <Pressable
-        testID="register-submit"
-        style={[styles.button, { backgroundColor: theme.accent, borderRadius: theme.radiusBtn }]}
-        onPress={form.submit}
-        disabled={form.submitting}
-      >
-        <Text style={[styles.buttonText, { color: theme.accentCtaText }]}>
-          {form.submitting ? 'Creating account…' : 'Create account'}
-        </Text>
-      </Pressable>
-      <Link href="/login" style={styles.link}>
-        <Text style={{ color: theme.textSoft }}>Already have an account? Log in</Text>
-      </Link>
-    </View>
+    <PublicOnlyGate>
+      <View style={[styles.container, { backgroundColor: theme.canvas }]}>
+        <Text style={[styles.title, { color: theme.textH }]}>Create account</Text>
+        <TextInput
+          style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: theme.surface }]}
+          placeholder="Email"
+          placeholderTextColor={theme.textSoft}
+          value={form.email}
+          onChangeText={form.setEmail}
+          autoCapitalize="none"
+          autoComplete="email"
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: theme.surface }]}
+          placeholder="Password"
+          placeholderTextColor={theme.textSoft}
+          value={form.password}
+          onChangeText={form.setPassword}
+          autoCapitalize="none"
+          autoComplete="new-password"
+          secureTextEntry
+        />
+        <TextInput
+          style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: theme.surface }]}
+          placeholder="Confirm password"
+          placeholderTextColor={theme.textSoft}
+          value={form.confirmPassword}
+          onChangeText={form.setConfirmPassword}
+          autoCapitalize="none"
+          autoComplete="new-password"
+          secureTextEntry
+        />
+        {form.error && <Text style={[styles.error, { color: theme.danger }]}>{form.error}</Text>}
+        <Pressable
+          testID="register-submit"
+          style={[styles.button, { backgroundColor: theme.accent, borderRadius: theme.radiusBtn }]}
+          onPress={form.submit}
+          disabled={form.submitting}
+        >
+          <Text style={[styles.buttonText, { color: theme.accentCtaText }]}>
+            {form.submitting ? 'Creating account…' : 'Create account'}
+          </Text>
+        </Pressable>
+        <Link href="/login" style={styles.link}>
+          <Text style={{ color: theme.textSoft }}>Already have an account? Log in</Text>
+        </Link>
+      </View>
+    </PublicOnlyGate>
   );
 }
 
