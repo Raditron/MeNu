@@ -2,6 +2,8 @@ import type { Catalog } from '@menu/domain/types/catalog';
 import type { Meal, Portion } from '@menu/domain/types/meal';
 import type { IngredientTagValue, TagValue } from '@menu/domain/types/tagValue';
 
+export type NewMeal = Omit<Meal, 'id'>;
+
 interface BackendPortion {
   ingredient: IngredientTagValue;
   grams: number;
@@ -17,6 +19,10 @@ interface BackendMeal {
 
 function toPortion(portion: BackendPortion): Portion {
   return { tagValue: portion.ingredient, grams: portion.grams };
+}
+
+function toBackendPortion(portion: Portion): BackendPortion {
+  return { ingredient: portion.tagValue, grams: portion.grams };
 }
 
 // Backend meals have no stable id yet, so one is derived from the fields
@@ -59,4 +65,25 @@ export async function getCatalog(): Promise<Catalog> {
   }
 
   return response.json();
+}
+
+export async function addMeal(uid: string, meal: NewMeal): Promise<void> {
+  const response = await fetch(`/api/users/${uid}/meal`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      meal: {
+        name: meal.name,
+        meatType: toBackendPortion(meal.meatType),
+        sideType: toBackendPortion(meal.sideType),
+        cuisineStyles: meal.cuisineStyles,
+        flavorProfiles: meal.flavorProfiles,
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const { error } = await response.json();
+    throw new Error(error ?? 'Error adding meal');
+  }
 }

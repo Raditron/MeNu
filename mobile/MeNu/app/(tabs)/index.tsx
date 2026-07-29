@@ -1,4 +1,5 @@
-import { Link } from 'expo-router';
+import { Link, useFocusEffect } from 'expo-router';
+import { useCallback, useRef } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { MealList } from '@/meal/components/MealList/MealList';
@@ -7,7 +8,20 @@ import { useAppTheme } from '@/theme';
 
 export default function MenuScreen() {
   const theme = useAppTheme();
-  const { meals, loading } = useMeals();
+  const { meals, loading, refetch } = useMeals();
+  const isInitialFocus = useRef(true);
+
+  // useMeals already fetches once on mount; skip the first focus so
+  // returning here (e.g. after Add Meal) doesn't fetch twice on load.
+  useFocusEffect(
+    useCallback(() => {
+      if (isInitialFocus.current) {
+        isInitialFocus.current = false;
+        return;
+      }
+      refetch();
+    }, [refetch]),
+  );
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: theme.canvas }} contentContainerStyle={styles.content}>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { calculateCalories } from '@menu/domain/utils/calculateCalories';
 import type { IngredientTagValue, TagValue } from '@menu/domain/types/tagValue';
+import type { NewMeal } from '../api';
 
 export interface IngredientSelection {
   tagValue: IngredientTagValue | null;
@@ -15,12 +16,13 @@ function toggleTagValue(values: TagValue[], value: TagValue): TagValue[] {
   return isSelected ? values.filter((existing) => existing.title !== value.title) : [...values, value];
 }
 
-export function useAddMealForm() {
+export function useAddMealForm(addMeal: (meal: NewMeal) => Promise<void>) {
   const [name, setName] = useState('');
   const [meatType, setMeatType] = useState<IngredientSelection>(emptyIngredient);
   const [sideType, setSideType] = useState<IngredientSelection>(emptyIngredient);
   const [cuisineStyles, setCuisineStyles] = useState<TagValue[]>([]);
   const [flavorProfiles, setFlavorProfiles] = useState<TagValue[]>([]);
+  const [submitting, setSubmitting] = useState(false);
 
   const calories =
     meatType.tagValue && sideType.tagValue
@@ -45,6 +47,18 @@ export function useAddMealForm() {
     setFlavorProfiles((prev) => toggleTagValue(prev, value));
   }
 
+  function submit(): Promise<void> | null {
+    if (!canSubmit || !meatType.tagValue || !sideType.tagValue) return null;
+    setSubmitting(true);
+    return addMeal({
+      name: name.trim(),
+      meatType: { tagValue: meatType.tagValue, grams: meatType.grams },
+      sideType: { tagValue: sideType.tagValue, grams: sideType.grams },
+      cuisineStyles,
+      flavorProfiles,
+    }).finally(() => setSubmitting(false));
+  }
+
   return {
     name,
     setName,
@@ -58,5 +72,7 @@ export function useAddMealForm() {
     toggleFlavorProfile,
     calories,
     canSubmit,
+    submitting,
+    submit,
   };
 }
