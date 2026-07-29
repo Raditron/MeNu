@@ -1,3 +1,4 @@
+import type { Catalog } from '@menu/domain/types/catalog';
 import type { Meal, Portion } from '@menu/domain/types/meal';
 import type { IngredientTagValue, TagValue } from '@menu/domain/types/tagValue';
 
@@ -47,4 +48,15 @@ export async function listMeals(uid: string): Promise<Meal[]> {
 
   const meals: BackendMeal[] = await response.json();
   return meals.map(toMeal);
+}
+
+export async function getCatalog(): Promise<Catalog> {
+  const response = await fetch('/api/catalog');
+
+  if (!response.ok) {
+    const { error } = await response.json();
+    throw new Error(error ?? 'Error fetching catalog');
+  }
+
+  return response.json();
 }
