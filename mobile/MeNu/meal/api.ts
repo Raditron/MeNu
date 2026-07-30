@@ -83,6 +83,28 @@ export async function addMeal(uid: string, meal: NewMeal): Promise<void> {
   }
 }
 
+export async function editMeal(uid: string, meal: Meal): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/api/users/${uid}/meal`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      meal: {
+        id: meal.id,
+        name: meal.name,
+        meatType: toBackendPortion(meal.meatType),
+        sideType: toBackendPortion(meal.sideType),
+        cuisineStyles: meal.cuisineStyles,
+        flavorProfiles: meal.flavorProfiles,
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const { error } = await response.json();
+    throw new Error(error ?? 'Error editing meal');
+  }
+}
+
 export async function submitQuiz(uid: string, mood: Mood): Promise<Meal[]> {
   const response = await fetch(`${API_BASE_URL}/api/users/${uid}/quiz`, {
     method: 'POST',

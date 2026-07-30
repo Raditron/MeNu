@@ -9,7 +9,7 @@ export function MealList({ meals }: MealListProps) {
     <FlatList
       data={meals}
       keyExtractor={(meal) => meal.id}
-      renderItem={({ item }) => <MealCard meal={item} />}
+      renderItem={({ item }) => <MealCard meal={item} editable />}
       contentContainerStyle={styles.content}
       scrollEnabled={false}
     />

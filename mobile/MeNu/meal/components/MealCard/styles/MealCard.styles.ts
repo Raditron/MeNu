@@ -28,6 +28,12 @@ export const styles = StyleSheet.create({
   portions: {
     fontSize: 14,
   },
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
   calories: {
     fontWeight: '500',
   },

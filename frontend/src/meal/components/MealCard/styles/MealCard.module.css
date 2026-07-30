@@ -42,6 +42,13 @@
   font-size: 14px;
 }
 
+.mealCardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .mealCardCalories {
   margin: 0;
   font-weight: 500;

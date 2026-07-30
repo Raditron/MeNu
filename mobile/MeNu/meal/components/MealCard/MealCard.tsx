@@ -1,15 +1,17 @@
+import { router } from 'expo-router';
 import { Text, View } from 'react-native';
 
 import { calculateCalories } from '@menu/domain/utils/calculateCalories';
 
 import { useAppTheme } from '@/theme';
+import { EditButton } from './EditButton/EditButton';
 import { IngredientIcon } from '../IngredientIcon/IngredientIcon';
 import { MatchBadge } from '../MatchBadge/MatchBadge';
 import { TagBadgeList } from '../TagBadgeList/TagBadgeList';
 import type { MealCardProps } from './interfaces/MealCard.interface';
 import { styles } from './styles/MealCard.styles';
 
-export function MealCard({ meal, matchScore }: MealCardProps) {
+export function MealCard({ meal, matchScore, editable }: MealCardProps) {
   const theme = useAppTheme();
   const calories = calculateCalories(meal);
 
@@ -27,7 +29,14 @@ export function MealCard({ meal, matchScore }: MealCardProps) {
           {meal.meatType.tagValue.title} ({meal.meatType.grams}g) · {meal.sideType.tagValue.title} ({meal.sideType.grams}g)
         </Text>
         <TagBadgeList tagValues={[...meal.cuisineStyles, ...meal.flavorProfiles]} />
-        <Text style={[styles.calories, { color: theme.textH }]}>{Math.round(calories)} cal</Text>
+        <View style={styles.footer}>
+          <Text style={[styles.calories, { color: theme.textH }]}>{Math.round(calories)} cal</Text>
+          {editable && (
+            <EditButton
+              onPress={() => router.push({ pathname: '/edit-meal', params: { meal: JSON.stringify(meal) } })}
+            />
+          )}
+        </View>
       </View>
     </View>
   );

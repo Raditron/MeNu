@@ -1,13 +1,22 @@
 import { MealCard } from '../../../meal/components/MealCard/MealCard'
+import { EditMealModal } from '../EditMealModal/EditMealModal'
 import type { MealListProps } from './interfaces/MealList.interface'
 import listStyles from '../../../shared/styles/list.module.css'
 
-export function MealList({ meals }: MealListProps) {
+export function MealList({ meals, onMealEdited }: MealListProps) {
   return (
     <ul className={listStyles.mealList}>
       {meals.map((meal) => (
         <li key={meal.id}>
-          <MealCard meal={meal} />
+          <MealCard
+            meal={meal}
+            renderEditModal={
+              onMealEdited &&
+              (({ meal, onClose }) => (
+                <EditMealModal meal={meal} onClose={onClose} onEdited={onMealEdited} />
+              ))
+            }
+          />
         </li>
       ))}
     </ul>
