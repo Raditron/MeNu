@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, Types } from "mongoose";
 
 export interface TagValueDocument {
   title: string;
@@ -15,6 +15,7 @@ export interface PortionDocument {
 }
 
 export interface MealDocument {
+  _id?: Types.ObjectId;
   name: string;
   meatType: PortionDocument;
   sideType: PortionDocument;
@@ -47,14 +48,11 @@ export const portionSchema = new Schema<PortionDocument>(
   { _id: false },
 );
 
-export const mealSchema = new Schema<MealDocument>(
-  {
-    name: { type: String, required: true },
-    meatType: { type: portionSchema, required: true },
-    sideType: { type: portionSchema, required: true },
-    cuisineStyles: { type: [tagValueSchema], required: false },
-    flavorProfiles: { type: [tagValueSchema], required: false },
-    totalCalories: { type: Number, required: true },
-  },
-  { _id: false },
-);
+export const mealSchema = new Schema<MealDocument>({
+  name: { type: String, required: true },
+  meatType: { type: portionSchema, required: true },
+  sideType: { type: portionSchema, required: true },
+  cuisineStyles: { type: [tagValueSchema], required: false },
+  flavorProfiles: { type: [tagValueSchema], required: false },
+  totalCalories: { type: Number, required: true },
+});

@@ -1,4 +1,5 @@
-import Meal from "../domain/value-objects/Meal.js";
+import { Types } from "mongoose";
+import Meal from "../domain/entities/Meal.js";
 import Portion from "../domain/value-objects/Portion.js";
 import { IngredientValue } from "../domain/catalog/value-objects/IngredientValue.js";
 import TagValue from "../domain/catalog/value-objects/TagValue.js";
@@ -21,11 +22,19 @@ export function toDomainPortion(doc: PortionDocument): Portion {
   return new Portion(toDomainIngredient(doc.ingredient), doc.grams);
 }
 
-export function toDomainMeal(doc: Omit<MealDocument, "totalCalories">): Meal {
+// `_id` accepts a string as well as a real ObjectId because this mapper
+// serves two callers: real Mongoose subdocuments (via menuMapper) and
+// plain JSON request bodies reconstructed by the add/edit-Meal handlers.
+export function toDomainMeal(
+  doc: Omit<MealDocument, "totalCalories" | "_id"> & {
+    _id?: Types.ObjectId | string;
+  },
+): Meal {
   const meal = new Meal(
     doc.name,
     toDomainPortion(doc.meatType),
     toDomainPortion(doc.sideType),
+    doc._id?.toString(),
   );
   meal.cuisineStyles = doc.cuisineStyles?.map(toDomainTagValue);
   meal.flavorProfiles = doc.flavorProfiles?.map(toDomainTagValue);
@@ -50,6 +59,7 @@ export function toPersistencePortion(portion: Portion): PortionDocument {
 
 export function toPersistenceMeal(meal: Meal): MealDocument {
   return {
+    ...(meal.id ? { _id: new Types.ObjectId(meal.id) } : {}),
     name: meal.name,
     meatType: toPersistencePortion(meal.meatType),
     sideType: toPersistencePortion(meal.sideType),

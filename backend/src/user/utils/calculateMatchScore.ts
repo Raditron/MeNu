@@ -1,5 +1,5 @@
 import TagValue from "../../meal/domain/catalog/value-objects/TagValue.js";
-import Meal from "../../meal/domain/value-objects/Meal.js";
+import Meal from "../../meal/domain/entities/Meal.js";
 import { Mood } from "../../meal/domain/value-objects/Mood.js";
 
 function singleSelectScore(mealValue: TagValue, moodValue: TagValue): number {

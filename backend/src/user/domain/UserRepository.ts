@@ -1,4 +1,4 @@
-import Meal from "../../meal/domain/value-objects/Meal.js";
+import Meal from "../../meal/domain/entities/Meal.js";
 import type { User } from "./User.js";
 
 export interface UserRepository {
@@ -8,4 +8,5 @@ export interface UserRepository {
   login(uid: string, email: string): Promise<User | null>;
   getMealsByUid(uid: string): Promise<Meal[] | []>;
   getUserByUid(uid: string): Promise<User | null>;
+  editUserMeal(uid: string, newMeal: Meal): Promise<void>;
 }

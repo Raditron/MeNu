@@ -1,9 +1,10 @@
 import type { User } from "../domain/User.js";
 import type { UserRepository } from "../domain/UserRepository.js";
 import Menu from "../domain/value-objects/Menu.js";
-import Meal from "../../meal/domain/value-objects/Meal.js";
+import Meal from "../../meal/domain/entities/Meal.js";
 import { UserModel } from "./UserModel.js";
 import { toDomainMenu, toPersistenceMenu } from "./menuMapper.js";
+import { UserNotFoundError } from "../domain/errors/UserNotFoundError.js";
 
 export class MongooseUserRepository implements UserRepository {
   async findByUId(uid: string): Promise<User | null> {
@@ -52,5 +53,15 @@ export class MongooseUserRepository implements UserRepository {
     return user
       ? { uid: user._id, email: user.email, menu: toDomainMenu(user.menu) }
       : null;
+  }
+  async editUserMeal(uid: string, editedMeal: Meal): Promise<void> {
+    const user = await UserModel.findById(uid);
+    if (!user) {
+      throw new UserNotFoundError(uid);
+    }
+    const menu = toDomainMenu(user.menu);
+    menu.editMeal(editedMeal);
+    user.menu = toPersistenceMenu(menu);
+    await user.save();
   }
 }

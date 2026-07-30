@@ -1,4 +1,4 @@
-import type Meal from "../../meal/domain/value-objects/Meal.js";
+import type Meal from "../../meal/domain/entities/Meal.js";
 import { UserRepository } from "../domain/UserRepository.js";
 
 export class GetMeals {

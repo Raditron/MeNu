@@ -10,7 +10,8 @@ export function createUserRouter(userController: UserController): Router {
   router.post("/users/login", userController.login);
   router.get("/users/:uid", userController.getUserByUid);
   router.get("/users/:uid/meals", userController.getMeals);
-  router.post("/users/:uid/meal", userController.addMeal)
-  router.post("/users/:uid/quiz", userController.submitQuiz)
+  router.post("/users/:uid/meal", userController.addMeal);
+  router.post("/users/:uid/quiz", userController.submitQuiz);
+  router.put("/users/:uid/meal", userController.editMeal);
   return router;
 }

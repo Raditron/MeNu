@@ -1,4 +1,4 @@
-import Meal from "../../meal/domain/value-objects/Meal.js";
+import Meal from "../../meal/domain/entities/Meal.js";
 import { Mood } from "../../meal/domain/value-objects/Mood.js";
 import { UserRepository } from "../domain/UserRepository.js";
 import { UserNotFoundError } from "../domain/errors/UserNotFoundError.js";
