@@ -66,6 +66,7 @@ function RootLayoutNav() {
       <ThemeProvider value={navigationTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="add-meal" options={{ headerShown: false }} />
         </Stack>
       </ThemeProvider>
     </SessionProvider>

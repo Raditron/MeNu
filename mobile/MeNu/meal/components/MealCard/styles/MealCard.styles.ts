@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
     gap: 8,
   },
   name: {
+    flex: 1,
     fontSize: 18,
     fontWeight: '600',
   },

@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { signOutUser } from "@/auth/api";
 import { useAuth } from "@/auth/hooks/useAuth";
+import { TabIcon } from "@/shared/components/TabIcon/TabIcon";
 import { useAppTheme } from "@/theme";
 import { useThemeScheme } from "@/theme/useThemeScheme";
 
@@ -51,8 +52,20 @@ export default function TabLayout() {
           headerShown: false,
         }}
       >
-        <Tabs.Screen name="index" options={{ title: "Menu" }} />
-        <Tabs.Screen name="quiz" options={{ title: "Quiz" }} />
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Menu",
+            tabBarIcon: ({ color, size }) => <TabIcon name="menu" color={color as string} size={size} />,
+          }}
+        />
+        <Tabs.Screen
+          name="quiz"
+          options={{
+            title: "Quiz",
+            tabBarIcon: ({ color, size }) => <TabIcon name="quiz" color={color as string} size={size} />,
+          }}
+        />
       </Tabs>
     </View>
   );

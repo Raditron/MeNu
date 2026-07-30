@@ -4,3 +4,17 @@
   justify-content: space-between;
   margin-bottom: 24px;
 }
+
+.searchSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.searchLabel {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-soft);
+}

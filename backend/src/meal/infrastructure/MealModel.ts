@@ -6,7 +6,7 @@ export interface TagValueDocument {
 
 export interface IngredientValueDocument extends TagValueDocument {
   caloriesPerGram: number;
-  icon: string;
+  icon?: string;
 }
 
 export interface PortionDocument {
@@ -34,7 +34,7 @@ export const ingredientValueSchema = new Schema<IngredientValueDocument>(
   {
     title: { type: String, required: true },
     caloriesPerGram: { type: Number, required: true },
-    icon: { type: String, required: true },
+    icon: { type: String, required: false },
   },
   { _id: false },
 );
