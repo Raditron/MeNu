@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { calculateCalories } from '@menu/domain/utils/calculateCalories';
 
@@ -16,7 +16,11 @@ export function MealCard({ meal, matchScore, editable }: MealCardProps) {
   const calories = calculateCalories(meal);
 
   return (
-    <View style={[styles.card, { backgroundColor: theme.surface, borderRadius: theme.radiusCard }, theme.shadowCard]}>
+    <Pressable
+      testID="meal-card"
+      onPress={() => router.push({ pathname: '/meal/[id]', params: { id: meal.id } })}
+      style={[styles.card, { backgroundColor: theme.surface, borderRadius: theme.radiusCard }, theme.shadowCard]}
+    >
       <View style={[styles.picture, { backgroundColor: theme.tagBg }]}>
         <IngredientIcon iconKey={meal.meatType.tagValue.icon} size={56} color={theme.textH} />
       </View>
@@ -38,6 +42,6 @@ export function MealCard({ meal, matchScore, editable }: MealCardProps) {
           )}
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }

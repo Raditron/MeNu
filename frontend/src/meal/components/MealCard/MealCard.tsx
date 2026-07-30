@@ -7,13 +7,17 @@ import { MatchBadge } from "../MatchBadge/MatchBadge";
 import { TagBadgeList } from "../TagBadgeList/TagBadgeList";
 import { EditButton } from "./EditButton/EditButton";
 
-export function MealCard({ meal, matchScore, renderEditModal }: MealCardProps) {
+export function MealCard({ meal, matchScore, renderEditModal, onPress }: MealCardProps) {
   const calories = calculateCalories(meal);
   const Icon = getIngredientIcon(meal.meatType.tagValue.icon);
   const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <article className={styles.mealCard}>
+    <article
+      className={styles.mealCard}
+      onClick={onPress}
+      data-clickable={onPress ? "" : undefined}
+    >
       <div className={styles.mealCardPicture} aria-hidden="true">
         {Icon ? <Icon /> : "🍽️"}
       </div>

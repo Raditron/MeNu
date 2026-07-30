@@ -5,6 +5,10 @@
   display: flex;
   flex-direction: column;
   background: var(--surface);
+
+  &[data-clickable] {
+    cursor: pointer;
+  }
 }
 
 .mealCardPicture {

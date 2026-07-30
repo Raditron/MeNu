@@ -1,0 +1,93 @@
+import { router, useLocalSearchParams } from 'expo-router';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+
+import { calculateCalories } from '@menu/domain/utils/calculateCalories';
+import { IngredientIcon } from '@/meal/components/IngredientIcon/IngredientIcon';
+import { TagBadgeList } from '@/meal/components/TagBadgeList/TagBadgeList';
+import { useMeal } from '@/meal/hooks/useMeal';
+import { useAppTheme } from '@/theme';
+
+export default function MealDetailsScreen() {
+  const theme = useAppTheme();
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const { meal, loading } = useMeal(id);
+
+  if (loading) {
+    return (
+      <View style={[styles.centered, { backgroundColor: theme.canvas }]}>
+        <Text style={{ color: theme.text }}>Loading meal…</Text>
+      </View>
+    );
+  }
+
+  if (!meal) {
+    return (
+      <View style={[styles.centered, { backgroundColor: theme.canvas }]}>
+        <Text style={{ color: theme.text }}>Meal not found.</Text>
+        <Pressable testID="meal-details-back" onPress={() => router.back()}>
+          <Text style={[styles.link, { color: theme.accent }]}>Back to Menu</Text>
+        </Pressable>
+      </View>
+    );
+  }
+
+  const calories = calculateCalories(meal);
+
+  return (
+    <ScrollView style={{ flex: 1, backgroundColor: theme.canvas }} contentContainerStyle={styles.content}>
+      <Pressable testID="meal-details-back" style={styles.backButton} onPress={() => router.back()}>
+        <Text style={[styles.backButtonText, { color: theme.text }]}>← Back to Menu</Text>
+      </Pressable>
+      <View style={[styles.picture, { backgroundColor: theme.tagBg }]}>
+        <IngredientIcon iconKey={meal.meatType.tagValue.icon} size={96} color={theme.textH} />
+      </View>
+      <Text style={[styles.title, { color: theme.textH }]}>{meal.name}</Text>
+      <Text style={[styles.portions, { color: theme.text }]}>
+        {meal.meatType.tagValue.title} ({meal.meatType.grams}g) · {meal.sideType.tagValue.title} ({meal.sideType.grams}g)
+      </Text>
+      <TagBadgeList tagValues={[...meal.cuisineStyles, ...meal.flavorProfiles]} />
+      <Text style={[styles.calories, { color: theme.textH }]}>{Math.round(calories)} cal</Text>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  content: {
+    padding: 16,
+    gap: 16,
+  },
+  centered: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+  },
+  backButton: {
+    alignSelf: 'flex-start',
+  },
+  backButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  picture: {
+    height: 200,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  portions: {
+    fontSize: 14,
+  },
+  calories: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  link: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+});

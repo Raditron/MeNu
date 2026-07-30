@@ -50,6 +50,22 @@ export async function listMeals(uid: string): Promise<Meal[]> {
   return meals.map(toMeal)
 }
 
+export async function getMealById(uid: string, mealId: string): Promise<Meal | null> {
+  const response = await fetch(`/api/users/${uid}/meal/${mealId}`)
+
+  if (response.status === 404) {
+    return null
+  }
+
+  if (!response.ok) {
+    const { error } = await response.json()
+    throw new Error(error ?? 'Error fetching meal')
+  }
+
+  const meal: BackendMeal = await response.json()
+  return toMeal(meal)
+}
+
 export async function getCatalog(): Promise<Catalog> {
   const response = await fetch('/api/catalog')
 

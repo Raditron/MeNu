@@ -8,7 +8,10 @@ export function EditButton({ onPress }: EditButtonProps) {
       type="button"
       className={styles.editButton}
       aria-label="Edit meal"
-      onClick={onPress}
+      onClick={event => {
+        event.stopPropagation();
+        onPress();
+      }}
     >
       <FiEdit2 />
     </button>

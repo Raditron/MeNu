@@ -19,7 +19,15 @@ export function EditButton({ onPress }: EditButtonProps) {
   const theme = useAppTheme();
 
   return (
-    <Pressable testID="meal-card-edit" accessibilityLabel="Edit meal" style={styles.button} onPress={onPress}>
+    <Pressable
+      testID="meal-card-edit"
+      accessibilityLabel="Edit meal"
+      style={styles.button}
+      onPress={event => {
+        event.stopPropagation();
+        onPress();
+      }}
+    >
       {({ pressed }) => <EditIcon color={pressed ? theme.accent5 : theme.textSoft} />}
     </Pressable>
   );
