@@ -12,6 +12,7 @@ interface BackendPortion {
 }
 
 interface BackendMeal {
+  id: string;
   name: string;
   meatType: BackendPortion;
   sideType: BackendPortion;
@@ -27,17 +28,9 @@ function toBackendPortion(portion: Portion): BackendPortion {
   return { ingredient: portion.tagValue, grams: portion.grams };
 }
 
-// Backend meals have no stable id yet, so one is derived from the fields
-// that make a meal unique — good enough for a list key.
-function toMealId(meal: BackendMeal): string {
-  return [meal.name, meal.meatType.ingredient.title, meal.meatType.grams, meal.sideType.ingredient.title, meal.sideType.grams].join(
-    '-',
-  );
-}
-
 function toMeal(meal: BackendMeal): Meal {
   return {
-    id: toMealId(meal),
+    id: meal.id,
     name: meal.name,
     meatType: toPortion(meal.meatType),
     sideType: toPortion(meal.sideType),
