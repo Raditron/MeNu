@@ -11,6 +11,8 @@ import type { MealDocument } from "../../meal/infrastructure/MealModel.js";
 import { Mood } from "../../meal/domain/value-objects/Mood.js";
 import { SubmitQuiz } from "../application/submitQuiz.js";
 import { EditMeal } from "../application/editMeal.js";
+import { GetMealById } from "../application/getMealById.js";
+import { MealNotFoundError } from "../domain/errors/MealNotFoundError.js";
 
 type UserControllerDependencies = {
   registerUser: RegisterUser;
@@ -20,6 +22,7 @@ type UserControllerDependencies = {
   getUserByUid: GetUserByUid;
   submitQuiz: SubmitQuiz;
   editMeal: EditMeal;
+  getMealById: GetMealById;
 };
 
 export function createUserController({
@@ -30,6 +33,7 @@ export function createUserController({
   getUserByUid,
   submitQuiz,
   editMeal,
+  getMealById,
 }: UserControllerDependencies) {
   return {
     // The `uid` is trusted as-is from the request body — there is no Firebase
@@ -92,6 +96,24 @@ export function createUserController({
         res.status(200).json(meals);
       } catch (error) {
         console.error("Error getting meals:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+      }
+    },
+
+    async getMealById(
+      req: Request<{ uid: string; mealId: string }>,
+      res: Response,
+    ) {
+      const { uid, mealId } = req.params;
+      try {
+        const meal = await getMealById.execute(uid, mealId);
+        res.status(200).json(meal);
+      } catch (error) {
+        if (error instanceof MealNotFoundError) {
+          res.status(404).json({ error: error.message });
+          return;
+        }
+        console.error("Error getting meal:", error);
         res.status(500).json({ error: "Internal Server Error" });
       }
     },

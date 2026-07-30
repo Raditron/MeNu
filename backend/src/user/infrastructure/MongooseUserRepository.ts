@@ -48,6 +48,14 @@ export class MongooseUserRepository implements UserRepository {
     const menu = toDomainMenu(user.menu);
     return menu.meals;
   }
+  async getMealByUid(uid: string, mealId: string): Promise<Meal | null> {
+    const user = await UserModel.findById(uid);
+    if (!user) {
+      return null;
+    }
+    const menu = toDomainMenu(user.menu);
+    return menu.meals.find(meal => meal.id === mealId) ?? null;
+  }
   async getUserByUid(uid: string): Promise<User | null> {
     const user = await UserModel.findById(uid);
     return user
