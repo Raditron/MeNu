@@ -1,14 +1,17 @@
 import { Link, useFocusEffect } from 'expo-router';
-import { useCallback, useRef } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { MealList } from '@/meal/components/MealList/MealList';
+import { MealSearchBar } from '@/meal/components/MealSearchBar/MealSearchBar';
 import { useMeals } from '@/meal/hooks/useMeals';
 import { useAppTheme } from '@/theme';
+import type { Meal } from '@menu/domain/types/meal';
 
 export default function MenuScreen() {
   const theme = useAppTheme();
   const { meals, loading, refetch } = useMeals();
+  const [typeInput, setTypeInput] = useState('');
   const isInitialFocus = useRef(true);
 
   // useMeals already fetches once on mount; skip the first focus so
@@ -21,6 +24,11 @@ export default function MenuScreen() {
       }
       refetch();
     }, [refetch]),
+  );
+
+  const filtered: Meal[] = useMemo(
+    () => meals.filter((meal) => meal.name.toLowerCase().includes(typeInput.toLowerCase())),
+    [meals, typeInput],
   );
 
   return (
@@ -36,10 +44,14 @@ export default function MenuScreen() {
           </Pressable>
         </Link>
       </View>
+      <View style={styles.searchSection}>
+        <Text style={[styles.searchLabel, { color: theme.textSoft }]}>Looking for something specific?</Text>
+        <MealSearchBar value={typeInput} onChange={setTypeInput} />
+      </View>
       {loading ? (
         <Text style={{ color: theme.text }}>Loading meals…</Text>
       ) : (
-        <MealList meals={meals} />
+        <MealList meals={filtered} />
       )}
       {meals.length === 0 && !loading && <Text style={{ color: theme.text }}>No meals yet.</Text>}
     </ScrollView>
@@ -68,5 +80,12 @@ const styles = StyleSheet.create({
   addMeal: {
     fontSize: 14,
     fontWeight: '600',
+  },
+  searchSection: {
+    gap: 8,
+  },
+  searchLabel: {
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
