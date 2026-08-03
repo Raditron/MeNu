@@ -89,4 +89,23 @@ describe('Meal details page', () => {
     expect(screen.getByRole('heading', { name: 'Edit Meal' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Menu', level: 1 })).toBeInTheDocument()
   })
+
+  it('shows a fallback message when the meal has no video attached', async () => {
+    mockAuthState(fakeUser)
+    stubFetchWithMealById(existingMeal)
+    renderApp('/menu/meal-1')
+
+    expect(await screen.findByText('No video attached, edit the meal to add one.')).toBeInTheDocument()
+    expect(screen.queryByTitle('Chicken and Rice video')).not.toBeInTheDocument()
+  })
+
+  it('embeds the YouTube video when the meal has a youtubeUrl', async () => {
+    mockAuthState(fakeUser)
+    stubFetchWithMealById({ ...existingMeal, youtubeURL: 'https://www.youtube.com/watch?v=abc123' })
+    renderApp('/menu/meal-1')
+
+    const iframe = await screen.findByTitle('Chicken and Rice video')
+    expect(iframe).toHaveAttribute('src', 'https://www.youtube.com/embed/abc123')
+    expect(screen.queryByText('No video attached, edit the meal to add one.')).not.toBeInTheDocument()
+  })
 })

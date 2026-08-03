@@ -1,7 +1,9 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { WebView } from 'react-native-webview';
 
 import { calculateCalories } from '@menu/domain/utils/calculateCalories';
+import { getYoutubeEmbedUrl } from '@menu/domain/utils/getYoutubeEmbedUrl';
 import { IngredientIcon } from '@/meal/components/IngredientIcon/IngredientIcon';
 import { TagBadgeList } from '@/meal/components/TagBadgeList/TagBadgeList';
 import { useMeal } from '@/meal/hooks/useMeal';
@@ -32,6 +34,7 @@ export default function MealDetailsScreen() {
   }
 
   const calories = calculateCalories(meal);
+  const embedUrl = getYoutubeEmbedUrl(meal.youtubeUrl);
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: theme.canvas }} contentContainerStyle={styles.content}>
@@ -47,6 +50,20 @@ export default function MealDetailsScreen() {
       </Text>
       <TagBadgeList tagValues={[...meal.cuisineStyles, ...meal.flavorProfiles]} />
       <Text style={[styles.calories, { color: theme.textH }]}>{Math.round(calories)} cal</Text>
+      {embedUrl ? (
+        <View style={[styles.videoWrapper, { backgroundColor: theme.tagBg }]}>
+          <WebView
+            testID="meal-video"
+            style={styles.video}
+            source={{ uri: embedUrl }}
+            allowsFullscreenVideo
+          />
+        </View>
+      ) : (
+        <Text style={[styles.noVideo, { color: theme.textSoft }]}>
+          No video attached, edit the meal to add one.
+        </Text>
+      )}
     </ScrollView>
   );
 }
@@ -85,6 +102,19 @@ const styles = StyleSheet.create({
   calories: {
     fontSize: 16,
     fontWeight: '600',
+  },
+  videoWrapper: {
+    width: '100%',
+    aspectRatio: 16 / 9,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  video: {
+    flex: 1,
+  },
+  noVideo: {
+    fontSize: 14,
+    fontStyle: 'italic',
   },
   link: {
     fontSize: 16,

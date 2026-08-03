@@ -17,6 +17,7 @@ export interface MealDocument {
   cuisineStyles?: TagValueDocument[];
   flavorProfiles?: TagValueDocument[];
   totalCalories: number;
+  youtubeURL?: string;
 }
 
 export const tagValueSchema = new Schema<TagValueDocument>(
@@ -41,4 +42,5 @@ export const mealSchema = new Schema<MealDocument>({
   cuisineStyles: { type: [tagValueSchema], required: false },
   flavorProfiles: { type: [tagValueSchema], required: false },
   totalCalories: { type: Number, required: true },
+  youtubeURL: { type: String, required: false },
 });

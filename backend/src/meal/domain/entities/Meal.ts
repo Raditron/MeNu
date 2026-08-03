@@ -9,9 +9,11 @@ export default class Meal {
   sideType: Portion;
   cuisineStyles?: TagValue[];
   flavorProfiles?: TagValue[];
+  youtubeURL? : string;
   private totalCalories: number;
   private numberOfPortions: number;
-  constructor(name: string, meatType: Portion, sideType: Portion, id?: string) {
+  constructor(name: string, meatType: Portion, sideType: Portion, id?: string, youtubeURL?: string) {
+    this.youtubeURL = youtubeURL;
     if (!meatTypes.some(m => m.title === meatType.getIngredient().title)) {
       throw new Error(
         `${meatType.getIngredient().title} is not a valid meat type`,

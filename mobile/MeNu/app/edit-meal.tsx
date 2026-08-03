@@ -54,6 +54,15 @@ export default function EditMealScreen() {
             selection={form.sideType}
             onChange={form.setSideType}
           />
+          <TextInput
+            style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: theme.surface }]}
+            placeholder="YouTube video URL (optional)"
+            placeholderTextColor={theme.textSoft}
+            autoCapitalize="none"
+            keyboardType="url"
+            value={form.youtubeUrl}
+            onChangeText={form.setYoutubeUrl}
+          />
           <TagMultiSelectField
             label="Cuisine Style"
             options={catalog.cuisineStyles}

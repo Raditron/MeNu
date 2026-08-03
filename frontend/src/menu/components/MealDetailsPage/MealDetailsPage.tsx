@@ -1,6 +1,7 @@
 import { FiArrowLeft } from "react-icons/fi";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { calculateCalories } from "@menu/domain/utils/calculateCalories";
+import { getYoutubeEmbedUrl } from "@menu/domain/utils/getYoutubeEmbedUrl";
 import { useMeal } from "../../../meal/hooks/useMeal";
 import { getIngredientIcon } from "../../../meal/utils/ingredientIcons";
 import { TagBadgeList } from "../../../meal/components/TagBadgeList/TagBadgeList";
@@ -26,6 +27,7 @@ export function MealDetailsPage() {
 
   const calories = calculateCalories(meal);
   const Icon = getIngredientIcon(meal.meatType.tagValue.icon);
+  const embedUrl = getYoutubeEmbedUrl(meal.youtubeUrl);
 
   return (
     <section>
@@ -48,6 +50,19 @@ export function MealDetailsPage() {
         tagValues={[...meal.cuisineStyles, ...meal.flavorProfiles]}
       />
       <p className={styles.calories}>{Math.round(calories)} cal</p>
+      {embedUrl ? (
+        <div className={styles.videoWrapper}>
+          <iframe
+            className={styles.video}
+            src={embedUrl}
+            title={`${meal.name} video`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      ) : (
+        <p className={styles.noVideo}>No video attached, edit the meal to add one.</p>
+      )}
     </section>
   );
 }

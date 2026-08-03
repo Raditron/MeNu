@@ -77,4 +77,25 @@ describe('Meal details screen', () => {
     expect(screen.getByText('Total: 300 cal')).toBeOnTheScreen();
     expect(screen.queryByTestId('meal-details-back')).not.toBeOnTheScreen();
   });
+
+  it('shows a fallback message when the meal has no video attached', async () => {
+    mockAuthState(fakeUser);
+    stubFetchWithMealById(existingMeal);
+
+    await renderApp('/meal/meal-1');
+
+    expect(await screen.findByText('No video attached, edit the meal to add one.')).toBeOnTheScreen();
+    expect(screen.queryByTestId('meal-video')).not.toBeOnTheScreen();
+  });
+
+  it('embeds the YouTube video when the meal has a youtubeURL', async () => {
+    mockAuthState(fakeUser);
+    stubFetchWithMealById({ ...existingMeal, youtubeURL: 'https://www.youtube.com/watch?v=abc123' });
+
+    await renderApp('/meal/meal-1');
+
+    expect(await screen.findByTestId('meal-video')).toBeOnTheScreen();
+    expect(screen.getByTestId('meal-video').props.source).toEqual({ uri: 'https://www.youtube.com/embed/abc123' });
+    expect(screen.queryByText('No video attached, edit the meal to add one.')).not.toBeOnTheScreen();
+  });
 });

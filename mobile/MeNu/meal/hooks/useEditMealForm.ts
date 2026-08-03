@@ -16,6 +16,7 @@ function toggleTagValue(values: TagValue[], value: TagValue): TagValue[] {
 
 export function useEditMealForm(meal: Meal, editMeal: (meal: Meal) => Promise<void>) {
   const [name, setName] = useState(meal.name);
+  const [youtubeUrl, setYoutubeUrl] = useState(meal.youtubeUrl ?? '');
   const [meatType, setMeatType] = useState<IngredientSelection>({
     tagValue: meal.meatType.tagValue,
     grams: meal.meatType.grams,
@@ -57,6 +58,7 @@ export function useEditMealForm(meal: Meal, editMeal: (meal: Meal) => Promise<vo
     return editMeal({
       id: meal.id,
       name: name.trim(),
+      youtubeUrl: youtubeUrl.trim() || undefined,
       meatType: { tagValue: meatType.tagValue, grams: meatType.grams },
       sideType: { tagValue: sideType.tagValue, grams: sideType.grams },
       cuisineStyles,
@@ -67,6 +69,8 @@ export function useEditMealForm(meal: Meal, editMeal: (meal: Meal) => Promise<vo
   return {
     name,
     setName,
+    youtubeUrl,
+    setYoutubeUrl,
     meatType,
     setMeatType,
     sideType,

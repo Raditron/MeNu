@@ -23,6 +23,7 @@ interface BackendMeal {
   cuisineStyles?: TagValue[]
   flavorProfiles?: TagValue[]
   numberOfPortions: number
+  youtubeURL?: string
 }
 
 function toPortion(portion: BackendPortion): Portion {
@@ -38,6 +39,7 @@ function toMeal(meal: BackendMeal): Meal {
     cuisineStyles: meal.cuisineStyles ?? [],
     flavorProfiles: meal.flavorProfiles ?? [],
     numberOfPortions: meal.numberOfPortions,
+    youtubeUrl: meal.youtubeURL,
   }
 }
 
@@ -95,6 +97,7 @@ export async function addMeal(uid: string, meal: NewMeal): Promise<void> {
         sideType: toBackendPortion(meal.sideType),
         cuisineStyles: meal.cuisineStyles,
         flavorProfiles: meal.flavorProfiles,
+        youtubeURL: meal.youtubeUrl,
       },
     }),
   })
@@ -117,6 +120,7 @@ export async function editMeal(uid: string, meal: Meal): Promise<void> {
         sideType: toBackendPortion(meal.sideType),
         cuisineStyles: meal.cuisineStyles,
         flavorProfiles: meal.flavorProfiles,
+        youtubeURL: meal.youtubeUrl,
       },
     }),
   })

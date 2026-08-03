@@ -6,6 +6,7 @@ import { CalorieTotal } from "../CalorieTotal/CalorieTotal";
 import { IngredientSelectField } from "../fields/IngredientSelectField/IngredientSelectField";
 import { MealNameField } from "../fields/MealNameField/MealNameField";
 import { TagMultiSelectField } from "../fields/TagMultiSelectField/TagMultiSelectField";
+import { YoutubeUrlField } from "../fields/YoutubeUrlField/YoutubeUrlField";
 import type { EditMealModalProps } from "./interfaces/EditMealModal.interface";
 import styles from "../AddMealModal/styles/AddMealModal.module.css";
 import buttonStyles from "../../../shared/styles/button.module.css";
@@ -75,6 +76,7 @@ export function EditMealModal({ meal, onClose, onEdited }: EditMealModalProps) {
               selected={form.flavorProfiles}
               onToggle={form.toggleFlavorProfile}
             />
+            <YoutubeUrlField value={form.youtubeUrl} onChange={form.setYoutubeUrl} />
             <CalorieTotal calories={form.calories} />
             <div className={styles.modalActions}>
               <button

@@ -30,6 +30,7 @@ export function toDomainMeal(
     toDomainPortion(doc.meatType, findMeatType),
     toDomainPortion(doc.sideType, findSideType),
     doc._id?.toString(),
+    doc.youtubeURL,
   );
   meal.cuisineStyles = doc.cuisineStyles?.map(toDomainTagValue);
   meal.flavorProfiles = doc.flavorProfiles?.map(toDomainTagValue);
@@ -57,5 +58,6 @@ export function toPersistenceMeal(meal: Meal): MealDocument {
     cuisineStyles: meal.cuisineStyles?.map(toPersistenceTagValue),
     flavorProfiles: meal.flavorProfiles?.map(toPersistenceTagValue),
     totalCalories: meal.getTotalCalories(),
+    youtubeURL: meal.youtubeURL,
   };
 }
