@@ -49,7 +49,18 @@ export default function MealDetailsScreen() {
         {meal.meatType.tagValue.title} ({meal.meatType.grams}g) · {meal.sideType.tagValue.title} ({meal.sideType.grams}g)
       </Text>
       <TagBadgeList tagValues={[...meal.cuisineStyles, ...meal.flavorProfiles]} />
-      <Text style={[styles.calories, { color: theme.textH }]}>{Math.round(calories)} cal</Text>
+      <View
+        style={[
+          styles.stats,
+          { borderRadius: theme.radiusBtn, backgroundColor: theme.accentBg, borderColor: theme.accentBorder },
+        ]}
+      >
+        <Text style={[styles.calories, { color: theme.textH }]}>{Math.round(calories)} cal</Text>
+        <Text style={[styles.calPerPortion, { backgroundColor: theme.tagBg, color: theme.tagText }]}>
+          {Math.round(meal.calPerPortion)} cal/portion
+        </Text>
+        <Text style={[styles.calories, { color: theme.textH }]}>Serves {meal.numberOfPortions} portions</Text>
+      </View>
       {embedUrl ? (
         <View style={[styles.videoWrapper, { backgroundColor: theme.tagBg }]}>
           <WebView
@@ -99,9 +110,25 @@ const styles = StyleSheet.create({
   portions: {
     fontSize: 14,
   },
+  stats: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+  },
   calories: {
     fontSize: 16,
     fontWeight: '600',
+  },
+  calPerPortion: {
+    paddingVertical: 3,
+    paddingHorizontal: 10,
+    borderRadius: 999,
+    fontSize: 13,
+    overflow: 'hidden',
   },
   videoWrapper: {
     width: '100%',

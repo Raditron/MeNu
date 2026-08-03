@@ -12,6 +12,7 @@ export default class Meal {
   youtubeURL? : string;
   private totalCalories: number;
   private numberOfPortions: number;
+  private calPerPortion : number;
   constructor(name: string, meatType: Portion, sideType: Portion, id?: string, youtubeURL?: string) {
     this.youtubeURL = youtubeURL;
     if (!meatTypes.some(m => m.title === meatType.getIngredient().title)) {
@@ -32,11 +33,20 @@ export default class Meal {
     this.numberOfPortions = Math.floor(
       Math.min(meatType.getNumberOfPortions(), sideType.getNumberOfPortions()),
     );
+    if (this.numberOfPortions <= 0) {
+      throw new Error(
+        "Portion sizes are too small to yield at least one full portion",
+      );
+    }
+    this.calPerPortion = this.totalCalories / this.numberOfPortions;
   }
   getTotalCalories() {
     return this.totalCalories;
   }
   getNumberOfPortions() {
     return this.numberOfPortions;
+  }
+  getCalPerPortion(){
+    return this.calPerPortion
   }
 }

@@ -49,7 +49,15 @@ export function MealDetailsPage() {
       <TagBadgeList
         tagValues={[...meal.cuisineStyles, ...meal.flavorProfiles]}
       />
-      <p className={styles.calories}>{Math.round(calories)} cal</p>
+      <div className={styles.stats}>
+        <p className={styles.calories}>{Math.round(calories)} cal</p>
+        <span className={styles.calPerPortion}>
+          {Math.round(meal.calPerPortion)} cal/portion
+        </span>
+        <p className={styles.calories}>
+          Serves {meal.numberOfPortions} portions
+        </p>
+      </div>
       {embedUrl ? (
         <div className={styles.videoWrapper}>
           <iframe

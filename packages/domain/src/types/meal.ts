@@ -15,4 +15,5 @@ export interface Meal {
   cuisineStyles: TagValue[]
   flavorProfiles: TagValue[]
   numberOfPortions : number;
+  calPerPortion : number;
 }

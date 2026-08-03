@@ -17,7 +17,6 @@ export function MealCard({
   const Icon = getIngredientIcon(meal.meatType.tagValue.icon);
   const [isEditing, setIsEditing] = useState(false);
   const numOfPortions = meal.numberOfPortions;
-  console.log(numOfPortions);
   return (
     <article
       className={styles.mealCard}
@@ -40,12 +39,14 @@ export function MealCard({
           tagValues={[...meal.cuisineStyles, ...meal.flavorProfiles]}
         />
         <div className={styles.mealCardFooter}>
-          <div style={{ flexDirection: "row", display: "flex", gap: "4vh" }}>
+          <div className={styles.mealCardStats}>
             <p className={styles.mealCardCalories}>
               {Math.round(calories)} cal
             </p>
+            <span className={styles.mealCardCalPerPortion}>
+              {Math.round(meal.calPerPortion)} cal/portion
+            </span>
             <p className={styles.mealCardCalories}>
-              {" "}
               Serves {numOfPortions} portions
             </p>
           </div>

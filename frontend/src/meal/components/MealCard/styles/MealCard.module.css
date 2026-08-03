@@ -53,9 +53,31 @@
   gap: 8px;
 }
 
+.mealCardStats {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  border-radius: var(--radius-btn);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+}
+
 .mealCardCalories {
   font-size: medium;
   margin: 0;
   font-weight: 500;
   color: var(--text-h);
+}
+
+.mealCardCalPerPortion {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  font-size: 13px;
+  white-space: nowrap;
 }

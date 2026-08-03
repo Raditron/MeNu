@@ -34,7 +34,23 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 8,
   },
+  stats: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+  },
   calories: {
     fontWeight: '500',
+  },
+  calPerPortion: {
+    paddingVertical: 3,
+    paddingHorizontal: 10,
+    borderRadius: 999,
+    fontSize: 13,
+    overflow: 'hidden',
   },
 });

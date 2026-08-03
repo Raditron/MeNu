@@ -34,7 +34,18 @@ export function MealCard({ meal, matchScore, editable }: MealCardProps) {
         </Text>
         <TagBadgeList tagValues={[...meal.cuisineStyles, ...meal.flavorProfiles]} />
         <View style={styles.footer}>
-          <Text style={[styles.calories, { color: theme.textH }]}>{Math.round(calories)} cal</Text>
+          <View
+            style={[
+              styles.stats,
+              { borderRadius: theme.radiusBtn, backgroundColor: theme.accentBg, borderColor: theme.accentBorder },
+            ]}
+          >
+            <Text style={[styles.calories, { color: theme.textH }]}>{Math.round(calories)} cal</Text>
+            <Text style={[styles.calPerPortion, { backgroundColor: theme.tagBg, color: theme.tagText }]}>
+              {Math.round(meal.calPerPortion)} cal/portion
+            </Text>
+            <Text style={[styles.calories, { color: theme.textH }]}>Serves {meal.numberOfPortions} portions</Text>
+          </View>
           {editable && (
             <EditButton
               onPress={() => router.push({ pathname: '/edit-meal', params: { meal: JSON.stringify(meal) } })}

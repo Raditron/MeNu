@@ -31,10 +31,33 @@
   margin: 8px 0 16px;
 }
 
-.calories {
+.stats {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
   margin-top: 16px;
+  padding: 8px 12px;
+  border-radius: var(--radius-btn);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+}
+
+.calories {
+  margin: 0;
   font-weight: 500;
   color: var(--text-h);
+}
+
+.calPerPortion {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 .videoWrapper {

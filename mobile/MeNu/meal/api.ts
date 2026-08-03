@@ -23,6 +23,8 @@ interface BackendMeal {
   sideType: BackendPortion;
   cuisineStyles?: TagValue[];
   flavorProfiles?: TagValue[];
+  numberOfPortions: number;
+  calPerPortion: number;
   youtubeURL?: string;
 }
 
@@ -42,6 +44,8 @@ function toMeal(meal: BackendMeal): Meal {
     sideType: toPortion(meal.sideType),
     cuisineStyles: meal.cuisineStyles ?? [],
     flavorProfiles: meal.flavorProfiles ?? [],
+    numberOfPortions: meal.numberOfPortions,
+    calPerPortion: meal.calPerPortion,
     youtubeUrl: meal.youtubeURL,
   };
 }
