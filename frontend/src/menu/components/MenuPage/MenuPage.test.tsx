@@ -32,6 +32,14 @@ function jsonResponse(body: unknown) {
   )
 }
 
+/** The backend stores/reads a portion by ingredient title, but always serves the meal with the full hydrated ingredient. */
+function hydratePortion(
+  portion: { ingredientTitle: string; grams: number },
+  options: { title: string }[],
+) {
+  return { ingredient: options.find((option) => option.title === portion.ingredientTitle), grams: portion.grams }
+}
+
 /** Simulates the backend: an edit PUT mutates the in-memory meal returned by the meals GET. */
 function stubFetchWithEditBackend(putSpy?: (body: { meal: unknown }) => void) {
   let meals: unknown[] = [existingMeal]
@@ -43,7 +51,12 @@ function stubFetchWithEditBackend(putSpy?: (body: { meal: unknown }) => void) {
       if (url.endsWith('/meal') && init?.method === 'PUT') {
         const body = JSON.parse(String(init.body))
         putSpy?.(body)
-        meals = meals.map((meal) => ((meal as { id: string }).id === body.meal.id ? body.meal : meal))
+        const hydratedMeal = {
+          ...body.meal,
+          meatType: hydratePortion(body.meal.meatType, catalog.meatTypes),
+          sideType: hydratePortion(body.meal.sideType, catalog.sideTypes),
+        }
+        meals = meals.map((meal) => ((meal as { id: string }).id === body.meal.id ? hydratedMeal : meal))
         return jsonResponse({})
       }
       if (url.includes('/meals')) return jsonResponse(meals)
@@ -103,8 +116,8 @@ describe('Editing a Meal on the Menu', () => {
       meal: {
         id: 'meal-1',
         name: 'Chicken and Rice, extra spicy',
-        meatType: { ingredient: catalog.meatTypes[0], grams: 100 },
-        sideType: { ingredient: catalog.sideTypes[0], grams: 100 },
+        meatType: { ingredientTitle: 'Chicken', grams: 100 },
+        sideType: { ingredientTitle: 'Rice', grams: 100 },
         cuisineStyles: [{ title: 'Italian' }],
         flavorProfiles: [{ title: 'Spicy' }],
       },

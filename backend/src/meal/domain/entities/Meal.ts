@@ -10,6 +10,7 @@ export default class Meal {
   cuisineStyles?: TagValue[];
   flavorProfiles?: TagValue[];
   private totalCalories: number;
+  private numberOfPortions: number;
   constructor(name: string, meatType: Portion, sideType: Portion, id?: string) {
     if (!meatTypes.some(m => m.title === meatType.getIngredient().title)) {
       throw new Error(
@@ -26,8 +27,14 @@ export default class Meal {
     this.meatType = meatType;
     this.sideType = sideType;
     this.totalCalories = meatType.getCalories() + sideType.getCalories();
+    this.numberOfPortions = Math.floor(
+      Math.min(meatType.getNumberOfPortions(), sideType.getNumberOfPortions()),
+    );
   }
   getTotalCalories() {
     return this.totalCalories;
+  }
+  getNumberOfPortions() {
+    return this.numberOfPortions;
   }
 }

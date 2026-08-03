@@ -4,13 +4,8 @@ export interface TagValueDocument {
   title: string;
 }
 
-export interface IngredientValueDocument extends TagValueDocument {
-  caloriesPerGram: number;
-  icon?: string;
-}
-
 export interface PortionDocument {
-  ingredient: IngredientValueDocument;
+  ingredientTitle: string;
   grams: number;
 }
 
@@ -31,18 +26,9 @@ export const tagValueSchema = new Schema<TagValueDocument>(
   { _id: false },
 );
 
-export const ingredientValueSchema = new Schema<IngredientValueDocument>(
-  {
-    title: { type: String, required: true },
-    caloriesPerGram: { type: Number, required: true },
-    icon: { type: String, required: false },
-  },
-  { _id: false },
-);
-
 export const portionSchema = new Schema<PortionDocument>(
   {
-    ingredient: { type: ingredientValueSchema, required: true },
+    ingredientTitle: { type: String, required: true },
     grams: { type: Number, required: true },
   },
   { _id: false },

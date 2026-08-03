@@ -10,6 +10,11 @@ interface BackendPortion {
   grams: number
 }
 
+interface NewBackendPortion {
+  ingredientTitle: string
+  grams: number
+}
+
 interface BackendMeal {
   id: string
   name: string
@@ -17,6 +22,7 @@ interface BackendMeal {
   sideType: BackendPortion
   cuisineStyles?: TagValue[]
   flavorProfiles?: TagValue[]
+  numberOfPortions: number
 }
 
 function toPortion(portion: BackendPortion): Portion {
@@ -31,11 +37,12 @@ function toMeal(meal: BackendMeal): Meal {
     sideType: toPortion(meal.sideType),
     cuisineStyles: meal.cuisineStyles ?? [],
     flavorProfiles: meal.flavorProfiles ?? [],
+    numberOfPortions: meal.numberOfPortions,
   }
 }
 
-function toBackendPortion(portion: Portion): BackendPortion {
-  return { ingredient: portion.tagValue, grams: portion.grams }
+function toBackendPortion(portion: Portion): NewBackendPortion {
+  return { ingredientTitle: portion.tagValue.title, grams: portion.grams }
 }
 
 export async function listMeals(uid: string): Promise<Meal[]> {

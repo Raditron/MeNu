@@ -5,4 +5,5 @@ export interface TagValue {
 export interface IngredientTagValue extends TagValue {
   caloriesPerGram: number
   icon: string
+  portionSizePerMeal: number
 }

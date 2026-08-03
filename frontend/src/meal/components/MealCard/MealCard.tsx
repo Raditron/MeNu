@@ -7,11 +7,17 @@ import { MatchBadge } from "../MatchBadge/MatchBadge";
 import { TagBadgeList } from "../TagBadgeList/TagBadgeList";
 import { EditButton } from "./EditButton/EditButton";
 
-export function MealCard({ meal, matchScore, renderEditModal, onPress }: MealCardProps) {
+export function MealCard({
+  meal,
+  matchScore,
+  renderEditModal,
+  onPress,
+}: MealCardProps) {
   const calories = calculateCalories(meal);
   const Icon = getIngredientIcon(meal.meatType.tagValue.icon);
   const [isEditing, setIsEditing] = useState(false);
-
+  const numOfPortions = meal.numberOfPortions;
+  console.log(numOfPortions);
   return (
     <article
       className={styles.mealCard}
@@ -34,13 +40,21 @@ export function MealCard({ meal, matchScore, renderEditModal, onPress }: MealCar
           tagValues={[...meal.cuisineStyles, ...meal.flavorProfiles]}
         />
         <div className={styles.mealCardFooter}>
-          <p className={styles.mealCardCalories}>
-            {Math.round(calories)} cal
-          </p>
+          <div style={{ flexDirection: "row", display: "flex", gap: "4vh" }}>
+            <p className={styles.mealCardCalories}>
+              {Math.round(calories)} cal
+            </p>
+            <p className={styles.mealCardCalories}>
+              {" "}
+              Serves {numOfPortions} portions
+            </p>
+          </div>
+
           {renderEditModal && <EditButton onPress={() => setIsEditing(true)} />}
         </div>
       </div>
-      {isEditing && renderEditModal?.({ meal, onClose: () => setIsEditing(false) })}
+      {isEditing &&
+        renderEditModal?.({ meal, onClose: () => setIsEditing(false) })}
     </article>
   );
 }

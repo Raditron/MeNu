@@ -12,8 +12,8 @@ function meal(overrides: Partial<Meal> = {}): Meal {
   return {
     id: '1',
     name: 'Test Meal',
-    meatType: { tagValue: { title: 'pork', caloriesPerGram: 2.4, icon: 'GiPig' }, grams: 100 },
-    sideType: { tagValue: { title: 'rice', caloriesPerGram: 1.1, icon: 'GiRice' }, grams: 100 },
+    meatType: { tagValue: { title: 'pork', caloriesPerGram: 2.4, icon: 'GiPig', portionSizePerMeal: 120 }, grams: 100 },
+    sideType: { tagValue: { title: 'rice', caloriesPerGram: 1.1, icon: 'GiRice', portionSizePerMeal: 150 }, grams: 100 },
     cuisineStyles: [tagValue('asian')],
     flavorProfiles: [tagValue('tangy')],
     ...overrides,

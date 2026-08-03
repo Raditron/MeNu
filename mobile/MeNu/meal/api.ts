@@ -11,6 +11,11 @@ interface BackendPortion {
   grams: number;
 }
 
+interface NewBackendPortion {
+  ingredientTitle: string;
+  grams: number;
+}
+
 interface BackendMeal {
   id: string;
   name: string;
@@ -24,8 +29,8 @@ function toPortion(portion: BackendPortion): Portion {
   return { tagValue: portion.ingredient, grams: portion.grams };
 }
 
-function toBackendPortion(portion: Portion): BackendPortion {
-  return { ingredient: portion.tagValue, grams: portion.grams };
+function toBackendPortion(portion: Portion): NewBackendPortion {
+  return { ingredientTitle: portion.tagValue.title, grams: portion.grams };
 }
 
 function toMeal(meal: BackendMeal): Meal {

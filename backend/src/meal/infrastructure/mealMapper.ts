@@ -2,24 +2,19 @@ import { Types } from "mongoose";
 import Meal from "../domain/entities/Meal.js";
 import Portion from "../domain/value-objects/Portion.js";
 import { IngredientValue } from "../domain/catalog/value-objects/IngredientValue.js";
+import { findMeatType, findSideType } from "../domain/catalog/data.js";
 import TagValue from "../domain/catalog/value-objects/TagValue.js";
-import type {
-  IngredientValueDocument,
-  MealDocument,
-  PortionDocument,
-  TagValueDocument,
-} from "./MealModel.js";
+import type { MealDocument, PortionDocument, TagValueDocument } from "./MealModel.js";
 
 export function toDomainTagValue(doc: TagValueDocument): TagValue {
   return new TagValue(doc.title);
 }
 
-export function toDomainIngredient(doc: IngredientValueDocument): IngredientValue {
-  return new IngredientValue(doc.title, doc.caloriesPerGram, doc.icon);
-}
-
-export function toDomainPortion(doc: PortionDocument): Portion {
-  return new Portion(toDomainIngredient(doc.ingredient), doc.grams);
+export function toDomainPortion(
+  doc: PortionDocument,
+  lookup: (title: string) => IngredientValue,
+): Portion {
+  return new Portion(lookup(doc.ingredientTitle), doc.grams);
 }
 
 // `_id` accepts a string as well as a real ObjectId because this mapper
@@ -32,12 +27,13 @@ export function toDomainMeal(
 ): Meal {
   const meal = new Meal(
     doc.name,
-    toDomainPortion(doc.meatType),
-    toDomainPortion(doc.sideType),
+    toDomainPortion(doc.meatType, findMeatType),
+    toDomainPortion(doc.sideType, findSideType),
     doc._id?.toString(),
   );
   meal.cuisineStyles = doc.cuisineStyles?.map(toDomainTagValue);
   meal.flavorProfiles = doc.flavorProfiles?.map(toDomainTagValue);
+  
   return meal;
 }
 
@@ -46,13 +42,8 @@ export function toPersistenceTagValue(tag: TagValue): TagValueDocument {
 }
 
 export function toPersistencePortion(portion: Portion): PortionDocument {
-  const ingredient = portion.getIngredient();
   return {
-    ingredient: {
-      title: ingredient.title,
-      caloriesPerGram: ingredient.caloriesPerGram,
-      icon: ingredient.icon,
-    },
+    ingredientTitle: portion.getIngredient().title,
     grams: portion.grams,
   };
 }

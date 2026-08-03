@@ -18,13 +18,23 @@ async function seed() {
 
   await MeatTypeModel.deleteMany({});
   await MeatTypeModel.insertMany(
-    meatTypes.map(m => ({ title: m.title, caloriesPerGram: m.caloriesPerGram, icon: m.icon })),
+    meatTypes.map(m => ({
+      title: m.title,
+      caloriesPerGram: m.caloriesPerGram,
+      icon: m.icon,
+      portionSizePerMeal: m.portionSizePerMeal,
+    })),
   );
   console.log(`[seedCatalog] seeded ${meatTypes.length} meat types`);
 
   await SideTypeModel.deleteMany({});
   await SideTypeModel.insertMany(
-    sideTypes.map(s => ({ title: s.title, caloriesPerGram: s.caloriesPerGram, icon: s.icon })),
+    sideTypes.map(s => ({
+      title: s.title,
+      caloriesPerGram: s.caloriesPerGram,
+      icon: s.icon,
+      portionSizePerMeal: s.portionSizePerMeal,
+    })),
   );
   console.log(`[seedCatalog] seeded ${sideTypes.length} side types`);
 

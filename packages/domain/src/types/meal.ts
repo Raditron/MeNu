@@ -13,4 +13,5 @@ export interface Meal {
   sideType: Portion
   cuisineStyles: TagValue[]
   flavorProfiles: TagValue[]
+  numberOfPortions : number;
 }

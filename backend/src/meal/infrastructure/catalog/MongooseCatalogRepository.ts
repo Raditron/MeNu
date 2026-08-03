@@ -11,12 +11,16 @@ import {
 export class MongooseCatalogRepository implements CatalogRepository {
   async getMeatTypes(): Promise<IngredientValue[]> {
     const docs = await MeatTypeModel.find();
-    return docs.map(doc => new IngredientValue(doc.title, doc.caloriesPerGram, doc.icon));
+    return docs.map(
+      doc => new IngredientValue(doc.title, doc.caloriesPerGram, doc.icon, doc.portionSizePerMeal),
+    );
   }
 
   async getSideTypes(): Promise<IngredientValue[]> {
     const docs = await SideTypeModel.find();
-    return docs.map(doc => new IngredientValue(doc.title, doc.caloriesPerGram, doc.icon));
+    return docs.map(
+      doc => new IngredientValue(doc.title, doc.caloriesPerGram, doc.icon, doc.portionSizePerMeal),
+    );
   }
 
   async getCuisineStyles(): Promise<TagValue[]> {

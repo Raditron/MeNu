@@ -7,8 +7,14 @@ describe("toDomainMeal", () => {
     const payload = {
       _id: "652f1f77bcf86cd799439011",
       name: "Chicken and rice",
-      meatType: { ingredient: { title: "chicken", caloriesPerGram: 1.9, icon: "GiChicken" }, grams: 200 },
-      sideType: { ingredient: { title: "rice", caloriesPerGram: 1.3, icon: "GiBowlOfRice" }, grams: 150 },
+      meatType: {
+        ingredientTitle: "chicken",
+        grams: 200,
+      },
+      sideType: {
+        ingredientTitle: "rice",
+        grams: 150,
+      },
       cuisineStyles: [{ title: "asian" }],
       flavorProfiles: [{ title: "savory" }],
     };

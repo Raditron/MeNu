@@ -4,6 +4,7 @@ export interface IngredientCatalogDocument {
   title: string;
   caloriesPerGram: number;
   icon: string;
+  portionSizePerMeal: number;
 }
 
 export interface TagCatalogDocument {
@@ -14,6 +15,7 @@ const ingredientCatalogSchema = new Schema<IngredientCatalogDocument>({
   title: { type: String, required: true },
   caloriesPerGram: { type: Number, required: true },
   icon: { type: String, required: true },
+  portionSizePerMeal: { type: Number, required: true },
 });
 
 const tagCatalogSchema = new Schema<TagCatalogDocument>({

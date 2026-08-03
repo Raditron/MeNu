@@ -3,7 +3,7 @@ import { calculateCalories } from './calculateCalories.ts'
 import type { Portion } from '../types/meal.ts'
 
 function portion(caloriesPerGram: number, grams: number): Portion {
-  return { tagValue: { title: 'test', caloriesPerGram, icon: 'GiTest' }, grams }
+  return { tagValue: { title: 'test', caloriesPerGram, icon: 'GiTest', portionSizePerMeal: 100 }, grams }
 }
 
 describe('calculateCalories', () => {
