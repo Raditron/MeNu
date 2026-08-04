@@ -14,7 +14,7 @@ export default function MealDetailsScreen() {
   const theme = useAppTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { meal, loading } = useMeal(id);
-  const { eatMeal, submitting, justAte } = useEatMeal(id);
+  const { eatMeal, submitting, justAte, error } = useEatMeal(id);
 
   if (loading) {
     return (
@@ -64,6 +64,11 @@ export default function MealDetailsScreen() {
       </Pressable>
       {justAte && (
         <Text style={[styles.eatConfirmation, { color: theme.textSoft }]}>Marked as eaten ✓</Text>
+      )}
+      {error && (
+        <Text testID="eat-meal-error" style={[styles.eatConfirmation, { color: theme.danger }]}>
+          {error.message}
+        </Text>
       )}
       <View
         style={[

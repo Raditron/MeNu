@@ -1,6 +1,7 @@
 import Portion from "../value-objects/Portion.js";
 import TagValue from "../catalog/value-objects/TagValue.js";
 import { meatTypes, sideTypes } from "../catalog/data.js";
+import { MealOnCooldownError } from "../errors/MealOnCooldownError.js";
 
 export default class Meal {
   id?: string;
@@ -61,7 +62,7 @@ export default class Meal {
     const lastEatenAt = this.eatenHistory[this.eatenHistory.length - 1];
     const sixHoursInMs = 6 * 60 * 60 * 1000;
     if (lastEatenAt && date.getTime() - lastEatenAt.date.getTime() < sixHoursInMs) {
-      throw new Error("Meal cannot be eaten again within 6 hours of the last time");
+      throw new MealOnCooldownError();
     }
     this.eatenHistory.push({ date });
   }

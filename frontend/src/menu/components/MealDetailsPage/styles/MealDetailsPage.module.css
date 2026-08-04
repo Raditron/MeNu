@@ -31,6 +31,19 @@
   margin: 8px 0 16px;
 }
 
+.lastEatenTag {
+  display: inline-flex;
+  margin: 0 0 16px;
+  padding: 4px 10px;
+  border-radius: var(--radius-btn);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-5);
+  white-space: nowrap;
+}
+
 .eatButton {
   font: inherit;
   display: inline-flex;
@@ -59,23 +72,67 @@
   color: var(--text-soft);
 }
 
-.stats {
+.eatError {
+  margin: 8px 0 0;
+  color: var(--danger);
+}
+
+.detailsRow {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 16px;
-  padding: 8px 12px;
-  border-radius: var(--radius-btn);
+  align-items: stretch;
+  gap: 16px;
+}
+
+.mainInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.statsCard {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 16px;
+  min-width: 200px;
+  padding: 20px;
+  border-radius: var(--radius-card);
   background: var(--accent-bg);
   border: 1px solid var(--accent-border);
 }
 
-.calories {
+.statsMain {
+  text-align: center;
+}
+
+.caloriesTotal {
   margin: 0;
-  font-weight: 500;
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1;
   color: var(--text-h);
+}
+
+.caloriesLabel {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.statsDivider {
+  height: 1px;
+  background: var(--accent-border);
+}
+
+.statsDetail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .calPerPortion {
@@ -86,6 +143,11 @@
   color: var(--tag-text);
   font-size: 13px;
   white-space: nowrap;
+}
+
+.servings {
+  font-weight: 500;
+  color: var(--text-h);
 }
 
 .videoWrapper {

@@ -5,6 +5,7 @@ import Meal from "../../meal/domain/entities/Meal.js";
 import { UserModel } from "./UserModel.js";
 import { toDomainMenu, toPersistenceMenu } from "./menuMapper.js";
 import { UserNotFoundError } from "../domain/errors/UserNotFoundError.js";
+import { MealNotFoundError } from "../domain/errors/MealNotFoundError.js";
 
 export class MongooseUserRepository implements UserRepository {
   async findByUId(uid: string): Promise<User | null> {
@@ -81,7 +82,7 @@ export class MongooseUserRepository implements UserRepository {
 
     const meal = menu.meals.find(meal => meal.id === mealId);
     if (!meal) {
-      throw new Error(`Meal with id ${mealId} not found for user ${uid}`);
+      throw new MealNotFoundError(mealId);
     }
     meal.addToEatenHistory(date);
     menu.editMeal(meal);
