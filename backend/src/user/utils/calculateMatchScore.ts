@@ -7,15 +7,15 @@ function singleSelectScore(mealValue: TagValue, moodValue: TagValue): number {
 }
 
 function multiSelectScore(
-  mealValues: TagValue[],
-  moodValues: TagValue[],
+  mealValues: TagValue[] | null,
+  moodValues: TagValue[] | null,
 ): number {
-  if (mealValues.length === 0) return 0;
-  const moodTitles = new Set(moodValues.map(value => value.title));
-  const matchedCount = mealValues.filter(value =>
+  if (!mealValues || mealValues.length === 0) return 0;
+  const moodTitles = new Set((moodValues || []).map(value => value.title));
+  const matchedCount = (mealValues || []).filter(value =>
     moodTitles.has(value.title),
   ).length;
-  return matchedCount / mealValues.length;
+  return matchedCount / (mealValues || []).length;
 }
 
 export function calculateMatchScore(meal: Meal, mood: Mood): number {

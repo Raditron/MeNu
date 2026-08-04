@@ -1,5 +1,5 @@
 export interface TagValue {
-  title: string
+  title: string;
 }
 
 export interface IngredientTagValue extends TagValue {

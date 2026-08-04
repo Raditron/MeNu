@@ -6,8 +6,8 @@ function singleSelectScore(mealValue: TagValue, moodValue: TagValue): number {
   return mealValue.title === moodValue.title ? 1 : 0
 }
 
-function multiSelectScore(mealValues: TagValue[], moodValues: TagValue[]): number {
-  if (mealValues.length === 0) return 0
+function multiSelectScore(mealValues: TagValue[], moodValues: TagValue[] | null): number {
+  if (mealValues.length === 0 || !moodValues) return 0
   const moodTitles = new Set(moodValues.map((value) => value.title))
   const matchedCount = mealValues.filter((value) => moodTitles.has(value.title)).length
   return matchedCount / mealValues.length

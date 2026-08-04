@@ -11,37 +11,47 @@ function toggleTagValue(values: TagValue[], value: TagValue): TagValue[] {
 export function useQuizWizard() {
   const { categories, loading } = useCategories()
   const [stepIndex, setStepIndex] = useState(0)
-  const [selectedByStep, setSelectedByStep] = useState<TagValue[][]>([])
+  const [selectedByStep, setSelectedByStep] = useState<(TagValue[] | null)[]>([])
   const [mood, setMood] = useState<Mood | null>(null)
 
   const selections = selectedByStep[stepIndex] ?? []
   const currentCategory = categories[stepIndex]
   const canGoNext = currentCategory !== undefined && selections.length > 0
 
-  function selectOption(option: TagValue) {
-    if (!currentCategory) return
-    const isSingleSelect = currentCategory.selectionMode === 'single'
-    const updatedSelections = isSingleSelect ? [option] : toggleTagValue(selections, option)
-
+  function setStepSelections(value: TagValue[] | null) {
     setSelectedByStep((prev) => {
       const next = [...prev]
       while (next.length <= stepIndex) next.push([])
-      next[stepIndex] = updatedSelections
+      next[stepIndex] = value
       return next
     })
+  }
+
+  function selectOption(option: TagValue | null) {
+    if (!currentCategory) return
+
+    if (option === null) {
+      setStepSelections(null)
+      advance(null)
+      return
+    }
+
+    const isSingleSelect = currentCategory.selectionMode === 'single'
+    const updatedSelections = isSingleSelect ? [option] : toggleTagValue(selections, option)
+    setStepSelections(updatedSelections)
 
     if (isSingleSelect) advance(updatedSelections)
   }
 
-  function advance(currentSelections: TagValue[]) {
+  function advance(currentSelections: TagValue[] | null) {
     if (stepIndex === categories.length - 1) {
       const byStep = [...selectedByStep]
       byStep[stepIndex] = currentSelections
       setMood({
-        meatType: byStep[0][0],
-        sideType: byStep[1][0],
-        cuisineStyles: byStep[2] ?? [],
-        flavorProfiles: byStep[3] ?? [],
+        meatType: byStep[0]![0],
+        sideType: byStep[1]![0],
+        cuisineStyles: byStep[2] ?? null,
+        flavorProfiles: byStep[3] ?? null,
       })
       return
     }

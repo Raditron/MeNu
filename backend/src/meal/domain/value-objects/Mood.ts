@@ -6,13 +6,13 @@ export class Mood {
    */
   meatType: TagValue;
   sideType: TagValue;
-  cuisineStyles: TagValue[];
-  flavorProfiles: TagValue[];
+  cuisineStyles: TagValue[] | null;
+  flavorProfiles: TagValue[] | null;
   constructor(
     meatType: TagValue,
     sideType: TagValue,
-    cuisineStyles: TagValue[],
-    flavorProfiles: TagValue[],
+    cuisineStyles: TagValue[] | null,
+    flavorProfiles: TagValue[] | null,
   ) {
     this.meatType = meatType;
     this.sideType = sideType;

@@ -1,7 +1,7 @@
-import type { QuizStepProps } from './interfaces/QuizStep.interface'
-import styles from './styles/QuizStep.module.css'
-import buttonStyles from '../../../shared/styles/button.module.css'
-import { QuizOptionList } from '../QuizOptionList/QuizOptionList'
+import type { QuizStepProps } from "./interfaces/QuizStep.interface";
+import styles from "./styles/QuizStep.module.css";
+import buttonStyles from "../../../shared/styles/button.module.css";
+import { QuizOptionList } from "../QuizOptionList/QuizOptionList";
 
 export function QuizStep({
   stepNumber,
@@ -14,6 +14,7 @@ export function QuizStep({
   onNext,
   onBack,
 }: QuizStepProps) {
+  const isMulti = category.selectionMode === "multi";
   return (
     <div className={styles.quizStep}>
       <div className={styles.quizProgressTrack}>
@@ -27,23 +28,44 @@ export function QuizStep({
       </p>
       <h2 className={styles.quizStepTitle}>{category.name}</h2>
       <p className={styles.quizStepHint}>
-        {category.selectionMode === 'single' ? 'Pick one' : 'Pick one or more'}
+        {category.selectionMode === "single" ? "Pick one" : "Pick one or more"}
       </p>
       <QuizOptionList
         options={category.options}
         selections={selections}
         onSelect={onSelect}
       />
+
       <div className={styles.quizStepActions}>
-        <button type="button" className={buttonStyles.secondary} onClick={onBack} disabled={!canGoBack}>
+        <button
+          type="button"
+          className={buttonStyles.secondary}
+          onClick={onBack}
+          disabled={!canGoBack}
+        >
           Back
         </button>
-        {category.selectionMode === 'multi' && (
-          <button type="button" className={buttonStyles.primary} onClick={onNext} disabled={!canGoNext}>
-            {stepNumber === stepCount ? 'See results' : 'Next'}
+        
+      {isMulti && (
+        <button
+          type="button"
+          className={styles.quizStepSkip}
+          onClick={() => onSelect(null)}
+        >
+          I don't know
+        </button>
+      )}
+        {isMulti && (
+          <button
+            type="button"
+            className={buttonStyles.primary}
+            onClick={onNext}
+            disabled={!canGoNext}
+          >
+            {stepNumber === stepCount ? "See results" : "Next"}
           </button>
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -25,8 +25,10 @@ export function QuizOptionList({ options, selections, onSelect }: QuizOptionList
             onSelect={onSelect}
           />
         ))}
+        
       </div>
       {options.length > COLLAPSED_OPTION_COUNT && (
+        
         <button
           type="button"
           className={styles.showMoreButton}

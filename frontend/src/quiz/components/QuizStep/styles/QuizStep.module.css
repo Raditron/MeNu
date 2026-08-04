@@ -68,11 +68,28 @@
   flex-shrink: 0;
 }
 
+.quizStepSkip {
+  font: inherit;
+  align-self: center;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  background: var(--surface);
+  color: var(--text-h);
+  padding: clamp(8px, 1.6vh, 10px) clamp(14px, 2.4vw, 18px);
+  cursor: pointer;
+  transition: border-color 0.2s;
+  flex-shrink: 0;
+
+  &:hover {
+    border-color: var(--border-subtle);
+  }
+}
+
 .quizStepActions {
   display: flex;
   justify-content: space-between;
   flex-shrink: 0;
-
   button {
     padding: clamp(8px, 1.6vh, 10px) clamp(14px, 2.4vw, 18px);
   }

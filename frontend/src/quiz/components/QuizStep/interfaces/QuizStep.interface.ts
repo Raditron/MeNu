@@ -8,7 +8,7 @@ export interface QuizStepProps {
   selections: TagValue[]
   canGoNext: boolean
   canGoBack: boolean
-  onSelect: (tagValue: TagValue) => void
+  onSelect: (tagValue: TagValue | null) => void
   onNext: () => void
   onBack: () => void
 }
