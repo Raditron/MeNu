@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { MealCard } from '../../../meal/components/MealCard/MealCard'
 import { calculateMatchScore } from '@menu/domain/utils/calculateMatchScore'
 import type { QuizResultsProps } from './interfaces/QuizResults.interface'
@@ -7,6 +8,7 @@ import listStyles from '../../../shared/styles/list.module.css'
 import buttonStyles from '../../../shared/styles/button.module.css'
 
 export function QuizResults({ mood, meals, onRestart }: QuizResultsProps) {
+  const navigate = useNavigate()
   const rankedMeals = useMemo(
     () =>
       meals
@@ -26,7 +28,7 @@ export function QuizResults({ mood, meals, onRestart }: QuizResultsProps) {
       <ul className={listStyles.mealList}>
         {rankedMeals.map(({ meal, matchScore }) => (
           <li key={meal.id}>
-            <MealCard meal={meal} matchScore={matchScore} />
+            <MealCard meal={meal} matchScore={matchScore} onPress={() => navigate(`/menu/${meal.id}`)} />
           </li>
         ))}
       </ul>
