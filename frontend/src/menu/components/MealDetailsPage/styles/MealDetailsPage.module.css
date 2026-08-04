@@ -31,6 +31,34 @@
   margin: 8px 0 16px;
 }
 
+.eatButton {
+  font: inherit;
+  display: inline-flex;
+  margin-top: 16px;
+  padding: 10px 18px;
+  border-radius: var(--radius-btn);
+  border: none;
+  background: var(--accent);
+  color: var(--accent-cta-text);
+  font-weight: 500;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: var(--shadow);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+.eatConfirmation {
+  margin: 8px 0 0;
+  color: var(--text-soft);
+}
+
 .stats {
   display: flex;
   flex-direction: row;

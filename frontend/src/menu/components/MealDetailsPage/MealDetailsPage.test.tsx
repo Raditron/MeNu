@@ -32,9 +32,12 @@ function jsonResponse(body: unknown, status = 200) {
 function stubFetchWithMealById(meal: unknown | null) {
   vi.stubGlobal(
     'fetch',
-    vi.fn((input: unknown) => {
+    vi.fn((input: unknown, init?: RequestInit) => {
       const url = String(input)
       if (url.includes('/api/catalog')) return jsonResponse(catalog)
+      if (/\/eat$/.test(url) && init?.method === 'POST') {
+        return Promise.resolve(new Response(null, { status: 204 }))
+      }
       if (/\/meal\/[^/]+$/.test(url)) {
         return meal ? jsonResponse(meal) : jsonResponse({ error: 'Meal not found' }, 404)
       }
@@ -97,6 +100,41 @@ describe('Meal details page', () => {
 
     expect(await screen.findByText('No video attached, edit the meal to add one.')).toBeInTheDocument()
     expect(screen.queryByTitle('Chicken and Rice video')).not.toBeInTheDocument()
+  })
+
+  it('marks the meal as eaten and shows confirmation when the button is pressed', async () => {
+    mockAuthState(fakeUser)
+    stubFetchWithMealById(existingMeal)
+    const user = userEvent.setup()
+    renderApp('/menu/meal-1')
+
+    await screen.findByRole('heading', { name: 'Chicken and Rice' })
+    await user.click(screen.getByRole('button', { name: 'Mark as eaten' }))
+
+    expect(await screen.findByText('Marked as eaten ✓')).toBeInTheDocument()
+    expect(fetch).toHaveBeenCalledWith(
+      '/api/users/test-uid/meal/meal-1/eat',
+      expect.objectContaining({ method: 'POST' }),
+    )
+  })
+
+  it('allows marking the same meal as eaten more than once', async () => {
+    mockAuthState(fakeUser)
+    stubFetchWithMealById(existingMeal)
+    const user = userEvent.setup()
+    renderApp('/menu/meal-1')
+
+    await screen.findByRole('heading', { name: 'Chicken and Rice' })
+    const eatButton = screen.getByRole('button', { name: 'Mark as eaten' })
+    await user.click(eatButton)
+    await screen.findByText('Marked as eaten ✓')
+    await user.click(eatButton)
+    await screen.findByText('Marked as eaten ✓')
+
+    const eatCalls = (fetch as unknown as ReturnType<typeof vi.fn>).mock.calls.filter(([input]: [unknown]) =>
+      String(input).endsWith('/eat'),
+    )
+    expect(eatCalls).toHaveLength(2)
   })
 
   it('embeds the YouTube video when the meal has a youtubeUrl', async () => {

@@ -66,6 +66,13 @@ export default function TabLayout() {
             tabBarIcon: ({ color, size }) => <TabIcon name="quiz" color={color as string} size={size} />,
           }}
         />
+        <Tabs.Screen
+          name="history"
+          options={{
+            title: "History",
+            tabBarIcon: ({ color, size }) => <TabIcon name="history" color={color as string} size={size} />,
+          }}
+        />
       </Tabs>
     </View>
   );

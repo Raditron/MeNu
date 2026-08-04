@@ -14,5 +14,6 @@ export function createUserRouter(userController: UserController): Router {
   router.post("/users/:uid/meal", userController.addMeal);
   router.post("/users/:uid/quiz", userController.submitQuiz);
   router.put("/users/:uid/meal", userController.editMeal);
+  router.post("/users/:uid/meal/:mealId/eat", userController.eatMeal);
   return router;
 }

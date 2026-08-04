@@ -19,8 +19,8 @@ export interface MealDocument {
   totalCalories: number;
   youtubeURL?: string;
   calPerPortion: number;
+  eatenHistory: { date: Date }[];
 }
-
 export const tagValueSchema = new Schema<TagValueDocument>(
   {
     title: { type: String, required: true },
@@ -45,4 +45,5 @@ export const mealSchema = new Schema<MealDocument>({
   totalCalories: { type: Number, required: true },
   youtubeURL: { type: String, required: false },
   calPerPortion: { type: Number, required: true },
+  eatenHistory: { type: [{ date: Date }], required: true, default: [] },
 });

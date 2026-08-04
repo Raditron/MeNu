@@ -5,4 +5,6 @@ export interface TagMultiSelectFieldProps {
   options: TagValue[]
   selected: TagValue[]
   onToggle: (value: TagValue) => void
+  collapsible?: boolean
+  defaultCollapsed?: boolean
 }

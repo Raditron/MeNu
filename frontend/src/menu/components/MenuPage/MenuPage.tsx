@@ -27,8 +27,15 @@ export function MenuPage() {
         <p className={styles.searchLabel}>Looking for something specific?</p>
         <MealSearchBar value={typeInput} onChange={setTypeInput} />
       </div>
-      {loading ? <p>Loading meals…</p> : <MealList meals={filtered} onMealEdited={refetch} />}
+      {loading ? (
+        <p>Loading meals…</p>
+      ) : (
+        <MealList meals={filtered} onMealEdited={refetch} />
+      )}
       {!loading && meals.length === 0 && <p>No meals yet.</p>}
+      {filtered.length === 0 && meals.length > 0 && (
+        <p>No meals match your search.</p>
+      )}
     </section>
   );
 }

@@ -14,6 +14,7 @@ import { MongooseCatalogRepository } from "./meal/infrastructure/catalog/Mongoos
 import { GetCatalog } from "./meal/application/getCatalog.js";
 import { createMealController } from "./meal/presentation/mealController.js";
 import { createMealRouter } from "./meal/presentation/mealRouter.js";
+import { EatMeal } from "./user/application/eatMeal.js";
 
 export function buildApp() {
   const userRepository = new MongooseUserRepository();
@@ -26,6 +27,7 @@ export function buildApp() {
     submitQuiz: new SubmitQuiz(userRepository),
     editMeal: new EditMeal(userRepository),
     getMealById: new GetMealById(userRepository),
+    eatMeal: new EatMeal(userRepository),
   });
   const userRouter = createUserRouter(userController);
 

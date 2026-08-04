@@ -10,4 +10,5 @@ export interface UserRepository {
   getMealByUid(uid: string, mealId: string): Promise<Meal | null>;
   getUserByUid(uid: string): Promise<User | null>;
   editUserMeal(uid: string, newMeal: Meal): Promise<void>;
+  eatMeal(uid: string, mealId: string, date: Date): Promise<void>;
 }

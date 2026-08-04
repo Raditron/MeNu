@@ -6,6 +6,7 @@ import { calculateCalories } from '@menu/domain/utils/calculateCalories';
 import { getYoutubeEmbedUrl } from '@menu/domain/utils/getYoutubeEmbedUrl';
 import { IngredientIcon } from '@/meal/components/IngredientIcon/IngredientIcon';
 import { TagBadgeList } from '@/meal/components/TagBadgeList/TagBadgeList';
+import { useEatMeal } from '@/meal/hooks/useEatMeal';
 import { useMeal } from '@/meal/hooks/useMeal';
 import { useAppTheme } from '@/theme';
 
@@ -13,6 +14,7 @@ export default function MealDetailsScreen() {
   const theme = useAppTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { meal, loading } = useMeal(id);
+  const { eatMeal, submitting, justAte } = useEatMeal(id);
 
   if (loading) {
     return (
@@ -49,6 +51,20 @@ export default function MealDetailsScreen() {
         {meal.meatType.tagValue.title} ({meal.meatType.grams}g) · {meal.sideType.tagValue.title} ({meal.sideType.grams}g)
       </Text>
       <TagBadgeList tagValues={[...meal.cuisineStyles, ...meal.flavorProfiles]} />
+      <Pressable
+        testID="mark-eaten-button"
+        disabled={submitting}
+        onPress={() => eatMeal()}
+        style={[
+          styles.eatButton,
+          { borderRadius: theme.radiusBtn, backgroundColor: theme.accent, opacity: submitting ? 0.6 : 1 },
+        ]}
+      >
+        <Text style={[styles.eatButtonText, { color: theme.accentCtaText }]}>Mark as eaten</Text>
+      </Pressable>
+      {justAte && (
+        <Text style={[styles.eatConfirmation, { color: theme.textSoft }]}>Marked as eaten ✓</Text>
+      )}
       <View
         style={[
           styles.stats,
@@ -108,6 +124,18 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   portions: {
+    fontSize: 14,
+  },
+  eatButton: {
+    alignSelf: 'flex-start',
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+  },
+  eatButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  eatConfirmation: {
     fontSize: 14,
   },
   stats: {

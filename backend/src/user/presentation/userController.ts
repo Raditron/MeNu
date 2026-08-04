@@ -1,8 +1,6 @@
 import type { Request, Response } from "express";
 import type { RegisterUser } from "../application/registerUser.js";
-import { UserAlreadyExistsError } from "../domain/errors/UserAlreadyExistsError.js";
 import type { LoginUser } from "../application/loginUser.js";
-import { UserNotFoundError } from "../domain/errors/UserNotFoundError.js";
 import { GetMeals } from "../application/getMeals.js";
 import { AddMeal } from "../application/addMeal.js";
 import { GetUserByUid } from "../application/getUserByUid.js";
@@ -12,7 +10,9 @@ import { Mood } from "../../meal/domain/value-objects/Mood.js";
 import { SubmitQuiz } from "../application/submitQuiz.js";
 import { EditMeal } from "../application/editMeal.js";
 import { GetMealById } from "../application/getMealById.js";
-import { MealNotFoundError } from "../domain/errors/MealNotFoundError.js";
+import { EatMeal } from "../application/eatMeal.js";
+import { assertParamsPresent } from "../../shared/errors/assertParamsPresent.js";
+import { handleControllerError } from "../../shared/http/handleControllerError.js";
 
 type UserControllerDependencies = {
   registerUser: RegisterUser;
@@ -23,6 +23,7 @@ type UserControllerDependencies = {
   submitQuiz: SubmitQuiz;
   editMeal: EditMeal;
   getMealById: GetMealById;
+  eatMeal : EatMeal;
 };
 
 export function createUserController({
@@ -34,6 +35,7 @@ export function createUserController({
   submitQuiz,
   editMeal,
   getMealById,
+  eatMeal,
 }: UserControllerDependencies) {
   return {
     // The `uid` is trusted as-is from the request body — there is no Firebase
@@ -44,59 +46,44 @@ export function createUserController({
       const { uid, email } = req.body;
       console.log("[userController.register] request received", { uid, email });
       try {
+        assertParamsPresent({ uid, email });
         const user = await registerUser.execute(uid, email);
         console.log("[userController.register] user created", user);
         res.json(user);
       } catch (error) {
-        if (error instanceof UserAlreadyExistsError) {
-          console.warn("[userController.register] user already exists", {
-            uid,
-          });
-          res.status(409).json({ error: error.message });
-          return;
-        }
-        console.error("Error in register:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        handleControllerError(error, res);
       }
     },
 
     async login(req: Request, res: Response) {
       const { uid, email } = req.body;
       try {
+        assertParamsPresent({ uid, email });
         const user = await loginUser.execute(uid, email);
         res.json(user);
       } catch (error) {
-        if (error instanceof UserNotFoundError) {
-          res.status(404).json({ error: error.message });
-          return;
-        }
-        console.error("Error in login:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        handleControllerError(error, res);
       }
     },
     async getUserByUid(req: Request<{ uid: string }>, res: Response) {
       const { uid } = req.params;
       try {
+        assertParamsPresent({ uid });
         const user = await getUserByUid.execute(uid);
         res.status(200).json(user);
       } catch (error) {
-        if (error instanceof UserNotFoundError) {
-          res.status(404).json({ error: error.message });
-          return;
-        }
-        console.error("Error getting user:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        handleControllerError(error, res);
       }
     },
 
     async getMeals(req: Request<{ uid: string }>, res: Response) {
       const { uid } = req.params;
       try {
+        assertParamsPresent({ uid });
         const meals = await getMeals.execute(uid);
         res.status(200).json(meals);
       } catch (error) {
-        console.error("Error getting meals:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        handleControllerError(error, res);
       }
     },
 
@@ -106,15 +93,11 @@ export function createUserController({
     ) {
       const { uid, mealId } = req.params;
       try {
+        assertParamsPresent({ uid, mealId });
         const meal = await getMealById.execute(uid, mealId);
         res.status(200).json(meal);
       } catch (error) {
-        if (error instanceof MealNotFoundError) {
-          res.status(404).json({ error: error.message });
-          return;
-        }
-        console.error("Error getting meal:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        handleControllerError(error, res);
       }
     },
 
@@ -129,11 +112,11 @@ export function createUserController({
       const { meal } = req.body;
       const { uid } = req.params;
       try {
+        assertParamsPresent({ uid, meal });
         await addMeal.execute(uid, toDomainMeal(meal));
         res.status(204).end();
       } catch (error) {
-        console.error("Error adding meal:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        handleControllerError(error, res);
       }
     },
 
@@ -144,15 +127,11 @@ export function createUserController({
       const { mood } = req.body;
       const { uid } = req.params;
       try {
+        assertParamsPresent({ uid, mood });
         const response = await submitQuiz.execute(uid, mood);
         res.status(200).json(response);
       } catch (error) {
-        if (error instanceof UserNotFoundError) {
-          res.status(404).json({ error: error.message });
-          return;
-        }
-        console.error("Error submitting Quiz: ", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        handleControllerError(error, res);
       }
     },
     async editMeal(
@@ -166,16 +145,23 @@ export function createUserController({
       const { uid } = req.params;
       const { meal: editedMeal } = req.body;
       try {
+        assertParamsPresent({ uid, meal: editedMeal });
         const meal = toDomainMeal({ ...editedMeal, _id: editedMeal.id });
         await editMeal.execute(uid, meal);
         res.status(200).end();
       } catch (error) {
-        if (error instanceof UserNotFoundError) {
-          res.status(404).json({ error: error.message });
-          return;
-        }
-        console.error("Error editing meal:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        handleControllerError(error, res);
+      }
+    },
+
+    async eatMeal(req: Request<{ uid: string; mealId: string }>, res: Response) {
+      const { uid, mealId } = req.params;
+      try {
+        assertParamsPresent({ uid, mealId });
+        await eatMeal.execute(uid, mealId);
+        res.status(204).end();
+      } catch (error) {
+        handleControllerError(error, res);
       }
     },
   };

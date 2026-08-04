@@ -30,9 +30,12 @@ function jsonResponse(body: unknown, status = 200) {
 }
 
 function stubFetchWithMealById(meal: unknown | null) {
-  globalThis.fetch = jest.fn((input: unknown) => {
+  globalThis.fetch = jest.fn((input: unknown, init?: RequestInit) => {
     const url = String(input);
     if (url.includes('/api/catalog')) return jsonResponse(catalog);
+    if (/\/eat$/.test(url) && init?.method === 'POST') {
+      return Promise.resolve(new Response(null, { status: 204 }));
+    }
     if (/\/meal\/[^/]+$/.test(url)) {
       return meal ? jsonResponse(meal) : jsonResponse({ error: 'Meal not found' }, 404);
     }
@@ -86,6 +89,37 @@ describe('Meal details screen', () => {
 
     expect(await screen.findByText('No video attached, edit the meal to add one.')).toBeOnTheScreen();
     expect(screen.queryByTestId('meal-video')).not.toBeOnTheScreen();
+  });
+
+  it('marks the meal as eaten and shows confirmation when the button is pressed', async () => {
+    mockAuthState(fakeUser);
+    stubFetchWithMealById(existingMeal);
+
+    await renderApp('/meal/meal-1');
+    await fireEvent.press(await screen.findByTestId('mark-eaten-button'));
+
+    expect(await screen.findByText('Marked as eaten ✓')).toBeOnTheScreen();
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/api/users/test-uid/meal/meal-1/eat'),
+      expect.objectContaining({ method: 'POST' }),
+    );
+  });
+
+  it('allows marking the same meal as eaten more than once', async () => {
+    mockAuthState(fakeUser);
+    stubFetchWithMealById(existingMeal);
+
+    await renderApp('/meal/meal-1');
+    const eatButton = await screen.findByTestId('mark-eaten-button');
+    await fireEvent.press(eatButton);
+    await screen.findByText('Marked as eaten ✓');
+    await fireEvent.press(eatButton);
+    await screen.findByText('Marked as eaten ✓');
+
+    const eatCalls = (fetch as unknown as jest.Mock).mock.calls.filter(([input]: [unknown]) =>
+      String(input).endsWith('/eat'),
+    );
+    expect(eatCalls).toHaveLength(2);
   });
 
   it('embeds the YouTube video when the meal has a youtubeURL', async () => {

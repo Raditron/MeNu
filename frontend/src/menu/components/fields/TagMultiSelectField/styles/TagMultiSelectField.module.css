@@ -1,3 +1,29 @@
+.collapseToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font: inherit;
+  font-size: clamp(12px, 2vh, 14px);
+  font-weight: 500;
+  color: var(--text-h);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.collapseIcon {
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.collapseIconOpen {
+  transform: rotate(180deg);
+}
+
 .tagMultiSelect {
   display: flex;
   flex-wrap: wrap;

@@ -9,11 +9,18 @@ export default class Meal {
   sideType: Portion;
   cuisineStyles?: TagValue[];
   flavorProfiles?: TagValue[];
-  youtubeURL? : string;
+  youtubeURL?: string;
   private totalCalories: number;
   private numberOfPortions: number;
-  private calPerPortion : number;
-  constructor(name: string, meatType: Portion, sideType: Portion, id?: string, youtubeURL?: string) {
+  private calPerPortion: number;
+   eatenHistory: { date: Date }[] = [];
+  constructor(
+    name: string,
+    meatType: Portion,
+    sideType: Portion,
+    id?: string,
+    youtubeURL?: string,
+  ) {
     this.youtubeURL = youtubeURL;
     if (!meatTypes.some(m => m.title === meatType.getIngredient().title)) {
       throw new Error(
@@ -39,6 +46,7 @@ export default class Meal {
       );
     }
     this.calPerPortion = this.totalCalories / this.numberOfPortions;
+    this.eatenHistory = [];
   }
   getTotalCalories() {
     return this.totalCalories;
@@ -46,7 +54,15 @@ export default class Meal {
   getNumberOfPortions() {
     return this.numberOfPortions;
   }
-  getCalPerPortion(){
-    return this.calPerPortion
+  getCalPerPortion() {
+    return this.calPerPortion;
+  }
+  addToEatenHistory(date: Date) {
+    const lastEatenAt = this.eatenHistory[this.eatenHistory.length - 1];
+    const sixHoursInMs = 6 * 60 * 60 * 1000;
+    if (lastEatenAt && date.getTime() - lastEatenAt.date.getTime() < sixHoursInMs) {
+      throw new Error("Meal cannot be eaten again within 6 hours of the last time");
+    }
+    this.eatenHistory.push({ date });
   }
 }

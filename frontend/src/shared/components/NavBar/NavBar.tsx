@@ -25,6 +25,9 @@ export function NavBar() {
         <NavLink to="/quiz" className={navLinkClassName}>
           Quiz
         </NavLink>
+        <NavLink to="/history" className={navLinkClassName}>
+          History
+        </NavLink>
       </div>
       <button type="button" className={styles.signOut} onClick={() => void signOut()}>
         Sign out

@@ -1,5 +1,5 @@
 export interface TabIconProps {
-  name: 'menu' | 'quiz';
+  name: 'menu' | 'quiz' | 'history';
   size?: number;
   color?: string;
 }

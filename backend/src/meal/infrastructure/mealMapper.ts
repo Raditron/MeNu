@@ -21,8 +21,10 @@ export function toDomainPortion(
 // serves two callers: real Mongoose subdocuments (via menuMapper) and
 // plain JSON request bodies reconstructed by the add/edit-Meal handlers.
 export function toDomainMeal(
-  doc: Omit<MealDocument, "totalCalories" | "_id"> & {
+  doc: Omit<MealDocument, "totalCalories" | "_id" | "calPerPortion" | "eatenHistory"> & {
     _id?: Types.ObjectId | string;
+    calPerPortion?: number;
+    eatenHistory?: { date: Date }[];
   },
 ): Meal {
   const meal = new Meal(
@@ -35,7 +37,8 @@ export function toDomainMeal(
   );
   meal.cuisineStyles = doc.cuisineStyles?.map(toDomainTagValue);
   meal.flavorProfiles = doc.flavorProfiles?.map(toDomainTagValue);
-  
+  meal.eatenHistory = doc.eatenHistory ?? [];
+
   return meal;
 }
 
@@ -61,5 +64,6 @@ export function toPersistenceMeal(meal: Meal): MealDocument {
     totalCalories: meal.getTotalCalories(),
     youtubeURL: meal.youtubeURL,
     calPerPortion: meal.getCalPerPortion(),
+    eatenHistory: meal.eatenHistory,
   };
 }

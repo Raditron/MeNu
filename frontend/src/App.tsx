@@ -8,6 +8,7 @@ import { PublicOnlyRoute } from './auth/components/PublicOnlyRoute/PublicOnlyRou
 import { RegisterPage } from './auth/components/RegisterPage/RegisterPage'
 import { SessionProvider } from './auth/session/SessionProvider'
 import { MealDetailsPage } from './menu/components/MealDetailsPage/MealDetailsPage'
+import { MealHistoryPage } from './menu/components/MealHistoryPage/MealHistoryPage'
 import { MenuPage } from './menu/components/MenuPage/MenuPage'
 import { QuizPage } from './quiz/components/QuizPage/QuizPage'
 import { NavBar } from './shared/components/NavBar/NavBar'
@@ -32,6 +33,7 @@ function App() {
             <Route path="/menu" element={<MenuPage />} />
             <Route path="/menu/:mealId" element={<MealDetailsPage />} />
             <Route path="/quiz" element={<QuizPage />} />
+            <Route path="/history" element={<MealHistoryPage />} />
             <Route path="/" element={<Navigate to="/menu" replace />} />
           </Route>
         </Route>

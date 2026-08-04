@@ -1,0 +1,29 @@
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  background: var(--surface);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mealName {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+.date {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-soft);
+}

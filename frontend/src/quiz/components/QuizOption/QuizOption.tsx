@@ -16,6 +16,9 @@ export function QuizOption({ tagValue, selected, onSelect }: QuizOptionProps) {
       className={`${styles.quizOption}${selected ? ` ${styles.selected}` : ''}`}
       onClick={() => onSelect(tagValue)}
     >
+      <span className={styles.quizOptionBarMask} aria-hidden="true">
+        <span className={styles.quizOptionBar} />
+      </span>
       {selected && (
         <span className={styles.quizOptionCheck} aria-hidden="true">
           ✓

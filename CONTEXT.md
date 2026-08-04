@@ -53,6 +53,18 @@ Calories per gram, defined only on Ingredient Tag Values (Meat Type/Side Type; e
 The gram amount a Meal contains of its Meat Type and Side Type Tag Value. Combined with that Tag Value's Calorie Density to compute the Meal's total calories.
 _Avoid_: Serving size, quantity
 
+**Eaten History**:
+The ordered list of Eaten Entries recorded against a Meal, appended to every time the user marks that Meal as eaten.
+_Avoid_: Log, eat records
+
+**Eaten Entry**:
+One item in a Meal's Eaten History, pairing the Meal with the date it was eaten.
+_Avoid_: History entry, log entry, eat record
+
+**Meal History**:
+The page listing every Eaten Entry across the user's Menu as a single reverse-chronological feed, filterable by meal name, a preset date range, and Category.
+_Avoid_: History log, eaten log
+
 **Protected Route**:
 A route that requires an authenticated Session to view. Visiting it while unauthenticated redirects to `/login`.
 _Avoid_: Private route, guarded route

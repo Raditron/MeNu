@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { GetCatalog } from "../application/getCatalog.js";
+import { handleControllerError } from "../../shared/http/handleControllerError.js";
 
 type MealControllerDependencies = {
   getCatalog: GetCatalog;
@@ -14,8 +15,7 @@ export function createMealController({
         const catalog = await getCatalog.execute();
         res.status(200).json(catalog);
       } catch (error) {
-        console.error("Error getting Catalog:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        handleControllerError(error, res);
       }
     },
   };

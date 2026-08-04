@@ -28,11 +28,20 @@ export function TabIcon({ name, size = 24, color = '#000000' }: TabIconProps) {
     );
   }
 
+  if (name === 'quiz') {
+    return (
+      <Svg testID="tab-icon-quiz" accessible={false} {...shared}>
+        <Circle cx={12} cy={12} r={10} />
+        <Path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+        <Line x1={12} y1={17} x2={12.01} y2={17} />
+      </Svg>
+    );
+  }
+
   return (
-    <Svg testID="tab-icon-quiz" accessible={false} {...shared}>
+    <Svg testID="tab-icon-history" accessible={false} {...shared}>
       <Circle cx={12} cy={12} r={10} />
-      <Path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-      <Line x1={12} y1={17} x2={12.01} y2={17} />
+      <Path d="M12 6v6l4 2" />
     </Svg>
   );
 }

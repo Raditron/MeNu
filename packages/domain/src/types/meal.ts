@@ -5,6 +5,10 @@ export interface Portion {
   grams: number
 }
 
+export interface EatenEntry {
+  date: string
+}
+
 export interface Meal {
   id: string
   name: string
@@ -16,4 +20,5 @@ export interface Meal {
   flavorProfiles: TagValue[]
   numberOfPortions : number;
   calPerPortion : number;
+  eatenHistory: EatenEntry[]
 }

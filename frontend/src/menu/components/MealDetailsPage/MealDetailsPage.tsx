@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { calculateCalories } from "@menu/domain/utils/calculateCalories";
 import { getYoutubeEmbedUrl } from "@menu/domain/utils/getYoutubeEmbedUrl";
 import { useMeal } from "../../../meal/hooks/useMeal";
+import { useEatMeal } from "../../../meal/hooks/useEatMeal";
 import { getIngredientIcon } from "../../../meal/utils/ingredientIcons";
 import { TagBadgeList } from "../../../meal/components/TagBadgeList/TagBadgeList";
 import styles from "./styles/MealDetailsPage.module.css";
@@ -11,6 +12,7 @@ export function MealDetailsPage() {
   const { mealId } = useParams<{ mealId: string }>();
   const navigate = useNavigate();
   const { meal, loading } = useMeal(mealId ?? "");
+  const { eatMeal, submitting, justAte } = useEatMeal(mealId ?? "");
 
   if (loading) {
     return <p>Loading meal…</p>;
@@ -49,6 +51,15 @@ export function MealDetailsPage() {
       <TagBadgeList
         tagValues={[...meal.cuisineStyles, ...meal.flavorProfiles]}
       />
+      <button
+        type="button"
+        className={styles.eatButton}
+        onClick={() => eatMeal()}
+        disabled={submitting}
+      >
+        Mark as eaten
+      </button>
+      {justAte && <p className={styles.eatConfirmation}>Marked as eaten ✓</p>}
       <div className={styles.stats}>
         <p className={styles.calories}>{Math.round(calories)} cal</p>
         <span className={styles.calPerPortion}>

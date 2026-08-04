@@ -72,4 +72,20 @@ export class MongooseUserRepository implements UserRepository {
     user.menu = toPersistenceMenu(menu);
     await user.save();
   }
+  async eatMeal(uid: string, mealId: string, date: Date): Promise<void> {
+    const user = await UserModel.findById(uid);
+    if (!user) {
+      throw new UserNotFoundError(uid);
+    }
+    const menu = toDomainMenu(user.menu);
+
+    const meal = menu.meals.find(meal => meal.id === mealId);
+    if (!meal) {
+      throw new Error(`Meal with id ${mealId} not found for user ${uid}`);
+    }
+    meal.addToEatenHistory(date);
+    menu.editMeal(meal);
+    user.menu = toPersistenceMenu(menu);
+    await user.save();
+  }
 }

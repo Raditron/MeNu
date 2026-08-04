@@ -26,6 +26,7 @@ interface BackendMeal {
   numberOfPortions: number;
   calPerPortion: number;
   youtubeURL?: string;
+  eatenHistory?: { date: string }[];
 }
 
 function toPortion(portion: BackendPortion): Portion {
@@ -47,6 +48,7 @@ function toMeal(meal: BackendMeal): Meal {
     numberOfPortions: meal.numberOfPortions,
     calPerPortion: meal.calPerPortion,
     youtubeUrl: meal.youtubeURL,
+    eatenHistory: meal.eatenHistory ?? [],
   };
 }
 
@@ -131,6 +133,17 @@ export async function editMeal(uid: string, meal: Meal): Promise<void> {
   if (!response.ok) {
     const { error } = await response.json();
     throw new Error(error ?? 'Error editing meal');
+  }
+}
+
+export async function eatMeal(uid: string, mealId: string): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/api/users/${uid}/meal/${mealId}/eat`, {
+    method: 'POST',
+  });
+
+  if (!response.ok) {
+    const { error } = await response.json();
+    throw new Error(error ?? 'Error marking meal as eaten');
   }
 }
 

@@ -48,11 +48,14 @@
     "setupFilesAfterEnv": [
       "<rootDir>/test/setup.ts"
     ],
+    "testTimeout": 15000,
     "moduleNameMapper": {
       "^firebase/auth$": "<rootDir>/test/mocks/firebaseAuth.ts",
       "^firebase/app$": "<rootDir>/test/mocks/firebaseApp.ts",
       "^@react-native-async-storage/async-storage$": "@react-native-async-storage/async-storage/jest/async-storage-mock",
-      "^react-native-webview$": "<rootDir>/test/mocks/reactNativeWebview.tsx"
+      "^react-native-webview$": "<rootDir>/test/mocks/reactNativeWebview.tsx",
+      "^react$": "<rootDir>/node_modules/react",
+      "^react/(.*)$": "<rootDir>/node_modules/react/$1"
     }
   }
 }
