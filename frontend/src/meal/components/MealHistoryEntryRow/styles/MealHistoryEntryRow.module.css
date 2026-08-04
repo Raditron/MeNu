@@ -10,7 +10,7 @@
 
 .header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 8px;
   flex-wrap: wrap;
@@ -24,6 +24,12 @@
 
 .date {
   margin: 0;
-  font-size: 14px;
-  color: var(--text-soft);
+  padding: 4px 10px;
+  border-radius: var(--radius-btn);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-5);
+  white-space: nowrap;
 }
